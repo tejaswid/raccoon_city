@@ -48,6 +48,9 @@ class MainGame(arcade.Window):
         self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
 
+        # keep track of score
+        self.score = 0
+
     def setup(self):
         """Set the game up. Call this function to restart the game."""
         # Initialize the sprite lists.
@@ -93,6 +96,8 @@ class MainGame(arcade.Window):
         # Create a physics engine for the player. tell the engine what objects the player cannot pass through
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, GRAVITY)
 
+        # Initialize score to zero
+        self.score = 0
 
     def on_draw(self):
         """Render screen."""
@@ -103,6 +108,11 @@ class MainGame(arcade.Window):
         self.wall_list.draw()
         self.item_list.draw()
         self.player_list.draw()
+
+        # Draw the score on the screen, scrolling it with the viewport
+        score_text = f"Score: {self.score}"
+        arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
+                         arcade.csscolor.WHITE, 18)
 
 
     def on_key_press(self, key, modifiers):
@@ -147,6 +157,8 @@ class MainGame(arcade.Window):
             coin.remove_from_sprite_lists()
             # Play a sound
             arcade.play_sound(self.collect_coin_sound)
+            # Update the score
+            self.score += 1
 
         # --- Manage Scrolling ---
 
