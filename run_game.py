@@ -138,6 +138,16 @@ class MainGame(arcade.Window):
         # Move the player with the physics engine
         self.physics_engine.update()
 
+        # check collision with items
+        coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,self.item_list)
+
+        # Loop through each coin we hit (if any) and remove it
+        for coin in coin_hit_list:
+            # Remove the coin
+            coin.remove_from_sprite_lists()
+            # Play a sound
+            arcade.play_sound(self.collect_coin_sound)
+
         # --- Manage Scrolling ---
 
         # Track if we need to change the viewport
