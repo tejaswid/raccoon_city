@@ -4,6 +4,9 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Racoon"
 
+# Movement speed of player, in pixels per frame
+PLAYER_MOVEMENT_SPEED = 5
+
 class MainGame(arcade.Window):
     """Main application class."""
 
@@ -65,6 +68,9 @@ class MainGame(arcade.Window):
             coin.position = coordinates
             self.item_list.append(coin)
 
+        # Create a simple physics engine for the player. tell the engine what objects the player cannot pass through
+        self.player_physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
+
 
     def on_draw(self):
         """Render screen."""
@@ -75,6 +81,39 @@ class MainGame(arcade.Window):
         self.wall_list.draw()
         self.item_list.draw()
         self.player_list.draw()
+
+
+    def on_key_press(self, key, modifiers):
+        """Called whenever a key is pressed. """
+        if key == arcade.key.UP or key == arcade.key.W:
+            self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
+        elif key == arcade.key.LEFT or key == arcade.key.A:
+            self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
+            self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
+
+
+    def on_key_release(self, key, modifiers):
+        """Called when the user releases a key. """
+
+        if key == arcade.key.UP or key == arcade.key.W:
+            self.player_sprite.change_y = 0
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.player_sprite.change_y = 0
+        elif key == arcade.key.LEFT or key == arcade.key.A:
+            self.player_sprite.change_x = 0
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
+            self.player_sprite.change_x = 0
+
+
+    def on_update(self, delta_time):
+        """ Movement and game logic. This function is called 60 times a second """
+
+        # Move the player with the physics engine
+        self.player_physics_engine.update()
+
 
 def main():
     """Set up and launch the game."""
