@@ -9,6 +9,13 @@ PLAYER_MOVEMENT_SPEED = 5
 PLAYER_JUMP_SPEED = 20
 GRAVITY = 1
 
+# How many pixels to keep as a minimum margin between the character
+# and the edge of the screen.
+LEFT_VIEWPORT_MARGIN = 250
+RIGHT_VIEWPORT_MARGIN = 250
+BOTTOM_VIEWPORT_MARGIN = 50
+TOP_VIEWPORT_MARGIN = 100
+
 
 class MainGame(arcade.Window):
     """Main application class."""
@@ -28,6 +35,18 @@ class MainGame(arcade.Window):
 
         # Separate variable that holds the player sprite
         self.player_sprite = None
+
+        # the physics engine
+        self.physics_engine = None
+
+        # Used to keep track of our scrolling
+        self.view_bottom = 0
+        self.view_left = 0
+
+        # Load sounds
+        # when using :resources:, the sounds are loaded from arcade's library. not the from the current project's library
+        self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
+        self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
 
     def setup(self):
         """Set the game up. Call this function to restart the game."""
@@ -91,6 +110,7 @@ class MainGame(arcade.Window):
         if key == arcade.key.UP or key == arcade.key.W:
             if self.physics_engine.can_jump():
                 self.player_sprite.change_y = PLAYER_JUMP_SPEED
+                arcade.play_sound(self.jump_sound)
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
         elif key == arcade.key.LEFT or key == arcade.key.A:
@@ -117,6 +137,48 @@ class MainGame(arcade.Window):
 
         # Move the player with the physics engine
         self.physics_engine.update()
+
+        # --- Manage Scrolling ---
+
+        # Track if we need to change the viewport
+
+        changed = False
+
+        # Scroll left
+        left_boundary = self.view_left + LEFT_VIEWPORT_MARGIN
+        if self.player_sprite.left < left_boundary:
+            self.view_left -= left_boundary - self.player_sprite.left
+            changed = True
+
+        # Scroll right
+        right_boundary = self.view_left + SCREEN_WIDTH - RIGHT_VIEWPORT_MARGIN
+        if self.player_sprite.right > right_boundary:
+            self.view_left += self.player_sprite.right - right_boundary
+            changed = True
+
+        # Scroll up
+        top_boundary = self.view_bottom + SCREEN_HEIGHT - TOP_VIEWPORT_MARGIN
+        if self.player_sprite.top > top_boundary:
+            self.view_bottom += self.player_sprite.top - top_boundary
+            changed = True
+
+        # Scroll down
+        bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
+        if self.player_sprite.bottom < bottom_boundary:
+            self.view_bottom -= bottom_boundary - self.player_sprite.bottom
+            changed = True
+
+        if changed:
+            # Only scroll to integers. Otherwise we end up with pixels that
+            # don't line up on the screen
+            self.view_bottom = int(self.view_bottom)
+            self.view_left = int(self.view_left)
+
+            # Do the scrolling
+            arcade.set_viewport(self.view_left,
+                                SCREEN_WIDTH + self.view_left,
+                                self.view_bottom,
+                                SCREEN_HEIGHT + self.view_bottom)
 
 
 def main():
