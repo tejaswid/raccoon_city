@@ -6,6 +6,9 @@ SCREEN_TITLE = "Racoon"
 
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 5
+PLAYER_JUMP_SPEED = 20
+GRAVITY = 1
+
 
 class MainGame(arcade.Window):
     """Main application class."""
@@ -68,8 +71,8 @@ class MainGame(arcade.Window):
             coin.position = coordinates
             self.item_list.append(coin)
 
-        # Create a simple physics engine for the player. tell the engine what objects the player cannot pass through
-        self.player_physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
+        # Create a physics engine for the player. tell the engine what objects the player cannot pass through
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, GRAVITY)
 
 
     def on_draw(self):
@@ -86,7 +89,8 @@ class MainGame(arcade.Window):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
         if key == arcade.key.UP or key == arcade.key.W:
-            self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
+            if self.physics_engine.can_jump():
+                self.player_sprite.change_y = PLAYER_JUMP_SPEED
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
         elif key == arcade.key.LEFT or key == arcade.key.A:
@@ -112,7 +116,7 @@ class MainGame(arcade.Window):
         """ Movement and game logic. This function is called 60 times a second """
 
         # Move the player with the physics engine
-        self.player_physics_engine.update()
+        self.physics_engine.update()
 
 
 def main():
