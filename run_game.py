@@ -1,7 +1,7 @@
 import arcade
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1920
+SCREEN_HEIGHT = 1080
 SCREEN_TITLE = "Racoon"
 
 # Movement speed of player, in pixels per frame
@@ -32,6 +32,7 @@ class MainGame(arcade.Window):
         self.item_list = None       # list of pickup items
         self.wall_list = None       # list of all obstacles and immovable objects
         self.player_list = None     # list for the player
+        self.bkg_list = None
 
         # Separate variable that holds the player sprite
         self.player_sprite = None
@@ -58,6 +59,7 @@ class MainGame(arcade.Window):
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)   
         self.item_list = arcade.SpriteList(use_spatial_hash=True)
+        self.bkg_list = arcade.SpriteList()
 
         # Set the sprite for the player and position it as necessary
         image_source = "resources/images/cop/cop.png"
@@ -93,6 +95,12 @@ class MainGame(arcade.Window):
             coin.position = coordinates
             self.item_list.append(coin)
 
+        bkg = arcade.Sprite("resources/images/backgrounds/bkg1_1920x1080.png")
+        bkg.scale = 1
+        bkg.center_x = 1920/2
+        bkg.center_y = 1080/2
+        self.bkg_list.append(bkg)
+
         # Create a physics engine for the player. tell the engine what objects the player cannot pass through
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, GRAVITY)
 
@@ -105,9 +113,11 @@ class MainGame(arcade.Window):
         arcade.start_render()
 
         # Draw the sprite lists
+        self.bkg_list.draw()
         self.wall_list.draw()
         self.item_list.draw()
         self.player_list.draw()
+        
 
         # Draw the score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
@@ -202,6 +212,8 @@ class MainGame(arcade.Window):
                                 self.view_bottom,
                                 SCREEN_HEIGHT + self.view_bottom)
 
+        self.bkg_list[0].change_x -= 20
+        print(self.bkg_list[0].position )
 
 def main():
     """Set up and launch the game."""
