@@ -132,3 +132,6 @@ dmypy.json
 *.idea
 *.vscode
 resources/images/inkscapeFiles/
+
+.DS_Store
+resources/.DS_Store
