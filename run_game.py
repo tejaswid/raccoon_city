@@ -1,11 +1,18 @@
+"""
+This is the code for the game ..... developed for pyweek31.
+
+Developers: DemonCyborg, Taterstew, pillitoka, ballipilla
+
+"""
+
 import arcade
 
-SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 768
 SCREEN_TITLE = "Racoon"
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 5
+PLAYER_MOVEMENT_SPEED = 15
 PLAYER_JUMP_SPEED = 20
 GRAVITY = 1
 
@@ -16,6 +23,17 @@ RIGHT_VIEWPORT_MARGIN = 250
 BOTTOM_VIEWPORT_MARGIN = 50
 TOP_VIEWPORT_MARGIN = 100
 
+# Ends of the view port = ends of the level
+VIEWPORT_BUFFER = 10    # just a small positive value
+LEVEL_LEFT_END = VIEWPORT_BUFFER
+LEVEL_RIGHT_END = 12800 - SCREEN_WIDTH - VIEWPORT_BUFFER
+
+
+# scaling for different objects
+TILE_SCALING = 1.0
+
+# How should different layers move wrt player speed
+SKY_SPEED_SCALING = 0.2
 
 class MainGame(arcade.Window):
     """Main application class."""
@@ -29,8 +47,8 @@ class MainGame(arcade.Window):
         arcade.set_background_color(arcade.csscolor.DIM_GRAY)
 
         # Setup lists for sprites. All sprites shoudl go into one of these lists
-        self.item_list = None       # list of pickup items
-        self.wall_list = None       # list of all obstacles and immovable objects
+        self.items_list = None       # list of pickup items
+        self.stage_list = None      # list of all stage objects - platform, blocks, walls
         self.player_list = None     # list for the player
         self.bkg_list = None
 
@@ -52,57 +70,94 @@ class MainGame(arcade.Window):
         # keep track of score
         self.score = 0
 
+        # boolean to know if the game just started
+        self.view_is_just_started = True
+
     def setup(self):
         """Set the game up. Call this function to restart the game."""
         # Initialize the sprite lists.
         # Set use_spatial_hash to True to speed up collision detection. But it slows movement
         self.player_list = arcade.SpriteList()
-        self.wall_list = arcade.SpriteList(use_spatial_hash=True)   
-        self.item_list = arcade.SpriteList(use_spatial_hash=True)
+        self.stage_list = arcade.SpriteList(use_spatial_hash=True)   
+        self.items_list = arcade.SpriteList(use_spatial_hash=True)
         self.bkg_list = arcade.SpriteList()
 
         # Set the sprite for the player and position it as necessary
         image_source = "resources/images/cop/cop.png"
         self.player_sprite = arcade.Sprite(image_source)
         self.player_sprite.scale = 1.0
-        self.player_sprite.center_x = 30
-        self.player_sprite.center_y = 155
+        self.player_sprite.center_x = 100       # where to place the centre of the sprite along horizontal
+        self.player_sprite.center_y = 155       # where to place the centre of the sprite along vertical
         self.player_list.append(self.player_sprite)
 
-        # Create the ground
-        # This shows using a loop to place multiple sprites horizontally
-        for x in range(0, 800, 105):
-            wall = arcade.Sprite("resources/images/objects/floor200x200.png")
-            wall.scale = 0.5
-            wall.center_x = x
-            wall.center_y = 50
-            self.wall_list.append(wall)
-
-        # Create blocks at desired locations
-        coordinate_list = [[100, 125], [250, 125], [700, 125]]
-        for coordinates in coordinate_list:
-            wall = arcade.Sprite("resources/images/objects/block50x50.png")
-            wall.scale = 1.0
-            wall.position = coordinates
-            self.wall_list.append(wall)
-
-        # Create items at desired locations
-        coordinate_list = [[200, 200], [500, 150], [600, 230]]
+        # ------------------------------------------
+        # Load the map created by the tile editor
+        # ------------------------------------------
+        # --> Name of map file to load
+        map_name = "resources/map/map.tmx"
         
-        for coordinates in coordinate_list:
-            coin = arcade.Sprite("resources/images/objects/coin50x100.png")
-            coin.scale = 0.5
-            coin.position = coordinates
-            self.item_list.append(coin)
+        # --> Nmae of the layers
+        stage_layer_name = 'stage'      # layer with platform / blocks / walls
+        items_layer_name = 'items'      # layer with pickup items
+        sky_layer_name = 'sky'          # layer with sky
+        moving_blocks_layer_name = 'obstacles'
+        # --> Read in the tiled map
+        game_map = arcade.tilemap.read_tmx(map_name)
+
+        # --> Load the platforms
+        self.stage_list = arcade.tilemap.process_layer(map_object=game_map,
+                                                      layer_name=stage_layer_name,
+                                                      scaling=TILE_SCALING,
+                                                      use_spatial_hash=True)
+
+        self.items_list = arcade.tilemap.process_layer(map_object=game_map,
+                                                      layer_name=items_layer_name,
+                                                      scaling=TILE_SCALING,
+                                                      use_spatial_hash=True)   
+
+        moving_blocks_list = arcade.tilemap.process_layer(map_object=game_map,
+                                                      layer_name=moving_blocks_layer_name,
+                                                      scaling=TILE_SCALING,
+                                                      use_spatial_hash=True)                                                       
+        for sprite in moving_blocks_list:
+            self.stage_list.append(sprite)
+
+        # # Create the ground
+        # # This shows using a loop to place multiple sprites horizontally
+        # for x in range(0, 800, 105):
+        #     wall = arcade.Sprite("resources/images/objects/floor200x200.png")
+        #     wall.scale = 0.5
+        #     wall.center_x = x
+        #     wall.center_y = 50
+        #     self.stage_list.append(wall)
+
+        # # Create blocks at desired locations
+        # coordinate_list = [[100, 125], [250, 125], [700, 125]]
+        # for coordinates in coordinate_list:
+        #     wall = arcade.Sprite("resources/images/objects/block50x50.png")
+        #     wall.scale = 1.0
+        #     wall.position = coordinates
+        #     self.stage_list.append(wall)
 
         bkg = arcade.Sprite("resources/images/backgrounds/bkg1_1920x1080.png")
         bkg.scale = 1
-        bkg.center_x = 1920/2
-        bkg.center_y = 1080/2
+        bkg.center_x = SCREEN_WIDTH / 2
+        bkg.center_y = SCREEN_HEIGHT / 2
         self.bkg_list.append(bkg)
 
+        # self.bkg_list = arcade.tilemap.process_layer(map_object=game_map,
+        #                                              layer_name=sky_layer_name,
+        #                                              scaling=TILE_SCALING,
+        #                                              use_spatial_hash=False) 
+
+
+
         # Create a physics engine for the player. tell the engine what objects the player cannot pass through
-        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, GRAVITY)
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
+                                                             self.stage_list,
+                                                             GRAVITY)
+
+        arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
 
         # Initialize score to zero
         self.score = 0
@@ -114,8 +169,8 @@ class MainGame(arcade.Window):
 
         # Draw the sprite lists
         self.bkg_list.draw()
-        self.wall_list.draw()
-        self.item_list.draw()
+        self.stage_list.draw()
+        self.items_list.draw()
         self.player_list.draw()
         
 
@@ -126,7 +181,7 @@ class MainGame(arcade.Window):
 
 
     def on_key_press(self, key, modifiers):
-        """Called whenever a key is pressed. """
+        """Call whenever a key is pressed."""
         if key == arcade.key.UP or key == arcade.key.W:
             if self.physics_engine.can_jump():
                 self.player_sprite.change_y = PLAYER_JUMP_SPEED
@@ -140,8 +195,7 @@ class MainGame(arcade.Window):
 
 
     def on_key_release(self, key, modifiers):
-        """Called when the user releases a key. """
-
+        """Call when the user releases a key."""
         if key == arcade.key.UP or key == arcade.key.W:
             self.player_sprite.change_y = 0
         elif key == arcade.key.DOWN or key == arcade.key.S:
@@ -153,54 +207,85 @@ class MainGame(arcade.Window):
 
 
     def on_update(self, delta_time):
-        """ Movement and game logic. This function is called 60 times a second """
-
+        """Update positions and game logic. This function is called 60 times a second."""
         # Move the player with the physics engine
         self.physics_engine.update()
 
         # check collision with items
-        coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,self.item_list)
+        item_hit_list = arcade.check_for_collision_with_list(self.player_sprite,self.items_list)
 
-        # Loop through each coin we hit (if any) and remove it
-        for coin in coin_hit_list:
-            # Remove the coin
-            coin.remove_from_sprite_lists()
+        # Loop through each item we hit (if any) and remove it
+        for item in item_hit_list:
+            # Remove the item
+            item.remove_from_sprite_lists()
             # Play a sound
             arcade.play_sound(self.collect_coin_sound)
             # Update the score
             self.score += 1
 
+        # Update moving blocks
+        self.stage_list.update()
+
+        # change direction in which the moving objects move, only movable objects have 
+        # boundary_... and change_... properties defined
+        for obstacle in self.stage_list:
+            # left - right inversion
+            if obstacle.boundary_left and obstacle.left < obstacle.boundary_left and obstacle.change_x < 0:
+                obstacle.change_x *= -1
+            if obstacle.boundary_right and obstacle.right > obstacle.boundary_right and obstacle.change_x > 0:
+                obstacle.change_x *= -1
+
+            # top-bottom inversion
+            if obstacle.boundary_top and obstacle.top > obstacle.boundary_top and obstacle.change_y > 0:
+                obstacle.change_y *= -1
+            if obstacle.boundary_bottom and obstacle.bottom < obstacle.boundary_bottom and obstacle.change_y < 0:
+                obstacle.change_y *= -1
+
+
         # --- Manage Scrolling ---
 
         # Track if we need to change the viewport
-
-        changed = False
+        changed_viewport = False
 
         # Scroll left
         left_boundary = self.view_left + LEFT_VIEWPORT_MARGIN
-        if self.player_sprite.left < left_boundary:
-            self.view_left -= left_boundary - self.player_sprite.left
-            changed = True
+        # Start scrolling left only after the player crosses the left boundary
+        # for the first time. Until then keep the view.left to 0
+        if self.view_is_just_started:
+            if self.player_sprite.left > left_boundary:
+                self.view_is_just_started = False
+        else:
+            if self.player_sprite.left < left_boundary:
+                # if we reach the start of the game, stop scrolling left
+                if self.view_left < LEVEL_LEFT_END:     # This is just a small positive buffer value
+                    # do not scroll left
+                    changed_viewport = False
+                else:
+                    self.view_left -= left_boundary - self.player_sprite.left
+                    changed_viewport = True
 
         # Scroll right
         right_boundary = self.view_left + SCREEN_WIDTH - RIGHT_VIEWPORT_MARGIN
         if self.player_sprite.right > right_boundary:
-            self.view_left += self.player_sprite.right - right_boundary
-            changed = True
+            if self.view_left > LEVEL_RIGHT_END:
+                changed_viewport = False
+            else:
+                self.view_left += self.player_sprite.right - right_boundary
+                changed_viewport = True
 
         # Scroll up
         top_boundary = self.view_bottom + SCREEN_HEIGHT - TOP_VIEWPORT_MARGIN
         if self.player_sprite.top > top_boundary:
             self.view_bottom += self.player_sprite.top - top_boundary
-            changed = True
+            changed_viewport = True
 
         # Scroll down
         bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
         if self.player_sprite.bottom < bottom_boundary:
             self.view_bottom -= bottom_boundary - self.player_sprite.bottom
-            changed = True
+            changed_viewport = True
 
-        if changed:
+        if changed_viewport:
             # Only scroll to integers. Otherwise we end up with pixels that
             # don't line up on the screen
             self.view_bottom = int(self.view_bottom)
@@ -212,8 +297,9 @@ class MainGame(arcade.Window):
                                 self.view_bottom,
                                 SCREEN_HEIGHT + self.view_bottom)
 
-        self.bkg_list[0].change_x -= 20
-        print(self.bkg_list[0].position )
+        # scroll the background sprite slowly
+        if self.player_sprite.left > LEVEL_LEFT_END and self.player_sprite.right < LEVEL_RIGHT_END:
+            self.bkg_list[0].center_x -= self.player_sprite.change_x * SKY_SPEED_SCALING
 
 def main():
     """Set up and launch the game."""

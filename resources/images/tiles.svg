@@ -13,7 +13,7 @@
    viewBox="0 0 210 297"
    version="1.1"
    id="svg2022"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   inkscape:version="1.0.1 (0767f8302a, 2020-10-17)"
    sodipodi:docname="tiles.svg">
   <defs
      id="defs2016">
@@ -66,18 +66,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="400"
-     inkscape:cy="560"
+     inkscape:zoom="1"
+     inkscape:cx="275.01125"
+     inkscape:cy="875.15741"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
-     inkscape:window-width="1267"
-     inkscape:window-height="1040"
-     inkscape:window-x="104"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1920"
+     inkscape:window-height="978"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata2019">
     <rdf:RDF>
@@ -86,7 +86,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -100,11 +100,17 @@
        width="33.866665"
        height="33.866665"
        x="70.646225"
-       y="131.43285" />
+       y="131.43285"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <g
        id="g1587"
        transform="matrix(0.99986081,0,0,0.99999871,441.95181,-208.16744)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_3.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
       <path
          id="path1583"
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -117,8 +123,11 @@
     </g>
     <g
        id="g1569"
-       transform="matrix(0.98412326,0,0,0.99013653,34.13379,-117.9659)"
-       style="display:inline">
+       transform="matrix(0.98412327,0,0,0.97860594,36.779597,-114.66714)"
+       style="display:inline"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_1.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
       <path
          id="path1565"
          style="fill:#000000;fill-opacity:1;stroke-width:0.520593;stroke-linecap:round"
@@ -132,7 +141,10 @@
     <g
        id="g1579"
        transform="matrix(0.99999871,0,0,1.0000049,73.292119,-86.585071)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
       <path
          id="path1575"
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -143,5 +155,171 @@
          id="path1577"
          sodipodi:nodetypes="cscsssssssscssssssscccsssssssssssssssssscssscssssscssssssssssssscssssccsssssssssc" />
     </g>
+    <rect
+       style="display:inline;fill:#cccccc;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect1573-3"
+       width="33.866665"
+       height="33.866665"
+       x="36.661186"
+       y="167.42566"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/sky/cloud.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       inkscape:transform-center-x="-29.619951"
+       inkscape:transform-center-y="-37.67301" />
+    <rect
+       style="display:inline;fill:#ffeeaa;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect38"
+       width="33.866665"
+       height="33.866665"
+       x="72.866524"
+       y="167.44771"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/sky/moon.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       inkscape:transform-center-x="-29.619951"
+       inkscape:transform-center-y="-37.67301" />
+    <rect
+       style="display:inline;fill:#f9f9f9;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect40"
+       width="33.866665"
+       height="33.866665"
+       x="109.379"
+       y="167.44771"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/sky/cloud.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       inkscape:transform-center-x="-29.619951"
+       inkscape:transform-center-y="-37.67301" />
+    <rect
+       style="display:inline;fill:#000000;fill-opacity:1;stroke-width:0.626098;stroke-linecap:round"
+       id="rect1573-6"
+       width="50.270832"
+       height="33.866665"
+       x="145.99741"
+       y="167.33626"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_test.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#ffaaaa;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect1573-7"
+       width="33.866665"
+       height="33.866665"
+       x="30.899347"
+       y="29.481836"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#ff5555;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect72"
+       width="33.866665"
+       height="33.866665"
+       x="71.558228"
+       y="29.172472"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#ff0000;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect74"
+       width="33.866665"
+       height="33.866665"
+       x="111.2166"
+       y="29.088486"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#aa0000;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect76"
+       width="33.866665"
+       height="33.866665"
+       x="151.0117"
+       y="28.89566"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#d5e5ff;fill-opacity:1;stroke-width:0.200738;stroke-linecap:round"
+       id="rect78"
+       width="13.229167"
+       height="13.229167"
+       x="32.92342"
+       y="232.83978"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#80b3ff;fill-opacity:1;stroke-width:0.283887;stroke-linecap:round"
+       id="rect80"
+       width="13.229167"
+       height="26.458334"
+       x="52.333595"
+       y="218.63785"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#0066ff;fill-opacity:1;stroke-width:0.283886;stroke-linecap:round"
+       id="rect82"
+       width="13.229167"
+       height="26.458334"
+       x="70.847908"
+       y="218.31268"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#002255;fill-opacity:1;stroke-width:0.200739;stroke-linecap:round"
+       id="rect84"
+       width="13.229167"
+       height="13.229167"
+       x="90.294342"
+       y="231.45941"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#c6e9af;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect86"
+       width="33.866665"
+       height="33.866665"
+       x="12.426086"
+       y="259.06992"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#8dd35f;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect88"
+       width="33.866665"
+       height="33.866665"
+       x="53.084965"
+       y="258.76053"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#5aa02c;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect90"
+       width="33.866665"
+       height="33.866665"
+       x="92.743332"
+       y="258.67654"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       style="display:inline;fill:#2d5016;fill-opacity:1;stroke-width:0.51389;stroke-linecap:round"
+       id="rect92"
+       width="33.866665"
+       height="33.866665"
+       x="132.53845"
+       y="258.48373"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/tiles/stage/stage_0.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
   </g>
 </svg>
