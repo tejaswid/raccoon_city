@@ -16,7 +16,7 @@ RIGHT_FACING = 0
 LEFT_FACING = 1
 
 # How many pixels to move before we change the texture in the walking animation
-DISTANCE_TO_CHANGE_TEXTURE = 20
+DISTANCE_TO_CHANGE_TEXTURE = 100
 
 class PlayerSprite(arcade.Sprite):
     """Player Sprite."""
