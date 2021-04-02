@@ -101,7 +101,7 @@ class MainGame(arcade.Window):
         # Load the map created by the tile editor
         # ------------------------------------------
         # --> Name of map file to load
-        map_name = "resources/map/map.tmx"
+        map_name = "resources/maps/map.tmx"
         
         # --> Nmae of the layers
         stage_layer_name = 'stage'      # layer with platform / blocks / walls
