@@ -53,7 +53,7 @@ class MainGame(arcade.Window):
         self.down_pressed = False
         self.jump_needs_reset = False
 
-        # Setup lists for sprites. All sprites shoudl go into one of these lists
+        # Setup lists for sprites. All sprites should go into one of these lists
         self.items_list = None       # list of pickup items
         self.stage_list = None      # list of all stage objects - platform, blocks, walls
         self.player_list = None     # list for the player
@@ -180,7 +180,6 @@ class MainGame(arcade.Window):
         self.items_list.draw()
         self.player_list.draw()
         
-
         # Draw the score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
         arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
@@ -215,7 +214,6 @@ class MainGame(arcade.Window):
         else:
             self.player_sprite.change_x = 0
 
-
     def on_key_press(self, key, modifiers):
         """Call whenever a key is pressed."""
         if key == arcade.key.UP or key == arcade.key.W:
@@ -228,7 +226,6 @@ class MainGame(arcade.Window):
             self.right_pressed = True
 
         self.process_keychange()
-
 
     def on_key_release(self, key, modifiers):
         """Call when the user releases a key."""
