@@ -218,8 +218,10 @@ class GameWindow(arcade.Window):
 
         # Sounds
         # when using :resources:, the sounds are loaded from arcade's library. not the from the current project's library
-        self.collect_coin_sound: arcade.Sound = arcade.load_sound(":resources:sounds/coin1.wav")
-        self.jump_sound: arcade.Sound = arcade.load_sound(":resources:sounds/jump1.wav")
+        self.collect_coin_sound: arcade.Sound = arcade.load_sound("resources/sounds/coin1.wav")
+        self.jump_sound: arcade.Sound = arcade.load_sound("resources/sounds/jump3.wav")
+        self.double_jump_sound: arcade.Sound = arcade.load_sound("resources/sounds/jump4.wav")
+        self.game_start_sound: arcade.Sound = arcade.load_sound("resources/sounds/secret2.wav")
 
         # Score
         self.score: int = 0
@@ -293,6 +295,9 @@ class GameWindow(arcade.Window):
         # Initialize score to zero
         self.score = 0
 
+        # Play a game start sound - helps load sounds faster
+        arcade.play_sound(self.game_start_sound)
+
     def on_key_press(self, key, modifiers):
         """Handle a key press.
 
@@ -315,7 +320,7 @@ class GameWindow(arcade.Window):
             else:
                 if self.allow_double_jump:
                     self.allow_double_jump = False
-                    arcade.play_sound(self.jump_sound)
+                    arcade.play_sound(self.double_jump_sound)
                     impulse = (0, PLAYER_JUMP_IMPULSE * PLAYER_DOUBLEJUMP_IMPULSE_SCALING)
                     self.physics_engine.apply_impulse(self.player_sprite, impulse)
 
