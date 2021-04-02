@@ -6,6 +6,7 @@ Developers: DemonCyborg, Taterstew, pillitoka, ballipilla
 
 import os
 import arcade
+from arcade.experimental.lights import Light, LightLayer
 
 from player_sprite import PlayerSprite
 
@@ -55,6 +56,11 @@ TOP_VIEWPORT_MARGIN = 50
 NUM_TILES_LEVEL_ALONG_WIDTH = 99
 VIEWPORT_BUFFER = 10    # just a small positive value
 
+# --- Lights
+# This is the color used for 'ambient light'.
+AMBIENT_COLOR = (200, 200, 200)
+
+
 class GameView(arcade.View):
     """Main Game class."""
 
@@ -87,8 +93,8 @@ class GameView(arcade.View):
         # Flag for double jump
         self.allow_double_jump: bool = True
 
-        # Set background color
-        arcade.set_background_color(arcade.csscolor.DIM_GRAY)
+        # Set background color - not necessary when using lights
+        # arcade.set_background_color(arcade.csscolor.DIM_GRAY)
 
         # Viewport variables
         self.view_left: int = 0
@@ -112,11 +118,34 @@ class GameView(arcade.View):
         self.level_start = VIEWPORT_BUFFER
         self.level_end = NUM_TILES_LEVEL_ALONG_WIDTH * self.sprite_size - self.screen_width - VIEWPORT_BUFFER
 
+        # --- Light related ---
+        # List of all the lights
+        self.light_layer = None
+        # Individual light we move with player, and turn on/off
+        self.player_light = None
+
     def setup(self):
         """Set the game up. Call this function to restart the game.
         
         A level ID can be passed to switch between levels.
         """
+        # Create lights
+        # Create a light layer, used to render things to, then post-process and
+        # add lights. This must match the screen size.
+        self.light_layer = LightLayer(self.screen_width, self.screen_height)
+        # We can also set the background color that will be lit by lights,
+        # but in this instance we just want a black background
+        self.light_layer.set_background_color(arcade.color.DIM_GRAY)
+
+        # Create a light to follow the player around.
+        # We'll position it later, when the player moves.
+        # We'll only add it to the light layer when the player turns the light
+        # on. We start with the light off.
+        radius = 150
+        mode = 'soft'
+        color = arcade.csscolor.LIGHT_YELLOW
+        self.player_light = Light(0, 0, radius, color, mode)
+
         # create sprite lists
         self.bullet_list = arcade.SpriteList()
         self.bkg_list = arcade.SpriteList()
@@ -212,6 +241,14 @@ class GameView(arcade.View):
                     arcade.play_sound(self.double_jump_sound)
                     impulse = (0, PLAYER_JUMP_IMPULSE * PLAYER_DOUBLEJUMP_IMPULSE_SCALING)
                     self.physics_engine.apply_impulse(self.player_sprite, impulse)
+        elif key == arcade.key.SPACE:
+            # Turn lights on or off
+            # We can add/remove lights from the light layer. If they aren't
+            # in the light layer, the light is off.
+            if self.player_light in self.light_layer:
+                self.light_layer.remove(self.player_light)
+            else:
+                self.light_layer.add(self.player_light)
 
     def on_key_release(self, key, modifiers):
         """Handle a key release.
@@ -269,6 +306,9 @@ class GameView(arcade.View):
         # Move items in the physics engine
         self.physics_engine.step()
 
+        # Move light along with the player
+        self.player_light.position = self.player_sprite.position
+
         # Trigger game over using these commands as appropriate
         # view = GameOverView()
         # self.window.show_view(view)
@@ -277,11 +317,20 @@ class GameView(arcade.View):
         """Draw everything to screen."""
         arcade.start_render()
         # Draw the sprite lists
-        self.bkg_list.draw()
-        self.stage_list.draw()
-        self.items_list.draw()
-        self.player_list.draw()
-        self.bullet_list.draw()
+        # Everything that should be affected by lights gets rendered inside this
+        # 'with' statement. Nothing is rendered to the screen yet, just the light
+        # layer.
+        with self.light_layer:
+            self.bkg_list.draw()
+            self.stage_list.draw()
+            self.items_list.draw()
+            self.player_list.draw()
+            self.bullet_list.draw()
+
+        # Draw the light layer to the screen.
+        # This fills the entire screen with the lit version
+        # of what we drew into the light layer above.
+        self.light_layer.draw(ambient_color=AMBIENT_COLOR)
 
         # Draw the score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
