@@ -107,6 +107,7 @@ class GameView(arcade.View):
         self.jump_sound: arcade.Sound = arcade.load_sound("resources/sounds/jump3.wav")
         self.double_jump_sound: arcade.Sound = arcade.load_sound("resources/sounds/jump4.wav")
         self.game_start_sound: arcade.Sound = arcade.load_sound("resources/sounds/secret2.wav")
+        self.soundtrack: arcade.Sound = arcade.load_sound("resources/sounds/soundtrack.wav")
 
         # Score
         self.score: int = 0
@@ -211,7 +212,7 @@ class GameView(arcade.View):
         self.score = 0
 
         # Play a game start sound - helps load sounds faster
-        arcade.play_sound(self.game_start_sound)
+        arcade.play_sound(self.soundtrack)
 
         # Reset the viewport
         arcade.set_viewport(0, self.screen_width - 1, 0, self.screen_height - 1)
