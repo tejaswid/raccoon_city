@@ -90,7 +90,7 @@ class MainGame(arcade.Window):
         self.bkg_list = arcade.SpriteList()
 
         # Set the sprite for the player and position it as necessary
-        image_source = "resources/images/cop/cop.png"
+        image_source = "resources/images/cop/cop_idle.png"
         self.player_sprite = arcade.Sprite(image_source)
         self.player_sprite.scale = 1.0
         self.player_sprite.center_x = 100       # where to place the centre of the sprite along horizontal
@@ -164,7 +164,7 @@ class MainGame(arcade.Window):
                                                              self.stage_list,
                                                              GRAVITY)
 
-        arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
+        arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
 
         # Initialize score to zero
         self.score = 0
