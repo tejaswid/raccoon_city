@@ -63,7 +63,6 @@ class CatSprite(arcade.Sprite):
             bullet = arcade.SpriteSolidColor(20, 5, arcade.color.PINK_SHERBET)
             bullet.position = self.position
             
-
             dest_x = (self.center_x + player.center_x) / 2
             dest_y = self.center_y - self.height/2
 

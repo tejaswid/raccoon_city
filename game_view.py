@@ -227,7 +227,7 @@ class GameView(arcade.View):
         # ------
         self.racoon_boss_list = arcade.SpriteList()
         racoon_boss_sprite = RacoonBossSprite(scale=SPRITE_SCALING_PLAYER)
-        racoon_boss_sprite.position = self.player_sprite.position + (10,0)
+        racoon_boss_sprite.position = self.player_sprite.position + (500,0)
         self.racoon_boss_list.append(racoon_boss_sprite)
 
         # setup the physics engine
@@ -363,19 +363,15 @@ class GameView(arcade.View):
 
     def owl_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
         """Handle collision between player and owl"""
+        print("player hit cat")
         # Play a sound
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score -= 1
 
     def cat_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
-        """Handle collision between player and owl"""
-        # Play a sound
-        arcade.play_sound(self.collect_coin_sound)
-        # Update the score
-        self.score -= 1
-        """Handle collision between player and owl"""
-        print("player hit owl")
+        """Handle collision between player and cat"""
+        print("player hit cat")
         # Play a sound
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
@@ -440,7 +436,7 @@ class GameView(arcade.View):
                 print(arcade.get_distance_between_sprites(self.player_sprite,cat))
                 cat.attack_player(self.player_sprite, self.bullet_list, self.physics_engine, delta_time)
 
-
+        # wandering racoon code
         for racoon in self.racoon_list:
             if racoon.is_facing_right:
                 dist_to_end = (racoon.starting_position[0] + racoon.max_delta_x) - racoon.center_x
@@ -465,13 +461,21 @@ class GameView(arcade.View):
                     self.physics_engine.set_friction(racoon, 1.0)
                     continue
 
+        # bullet turns to bubblegum when it hits the floor
         for bullet in self.bullet_list:
-            print("bullet velocity {}".format(bullet.velocity))
+            #print("bullet velocity {}".format(bullet.velocity))
             #if bullet.velocity[1] < 0.005 and bullet.velocity[0] < 0.005:
             if self.physics_engine.is_on_ground(bullet):    
                 bullet.angle = 0
                 bullet.texture = arcade.load_texture(os.path.join("resources/images/cat", "bubblegum.png"))
                 self.physics_engine.set_velocity(bullet,(0,0))
+
+        # racoon boss moves to the right and disappears
+        for racoon_boss in self.racoon_boss_list:
+            if racoon_boss.center_x < 2000:
+                self.physics_engine.apply_force(racoon_boss, force)
+            if racoon_boss.center_x > 2000 and racoon_boss.center_x < 10000:
+                racoon_boss.remove_from_sprite_lists()
 
         # Move items in the physics engine
         self.physics_engine.step()
