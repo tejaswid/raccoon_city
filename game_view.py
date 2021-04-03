@@ -61,7 +61,7 @@ BOTTOM_VIEWPORT_MARGIN = 50
 TOP_VIEWPORT_MARGIN = 50
 
 # Ends of the view port = ends of the level
-NUM_TILES_LEVEL_ALONG_WIDTH = 99
+NUM_TILES_LEVEL_ALONG_WIDTH = 150
 VIEWPORT_BUFFER = 10    # just a small positive value
 
 # --- Lights
@@ -88,7 +88,10 @@ class GameView(arcade.View):
         self.stage_list: arcade.SpriteList = None
         self.bullet_list: arcade.SpriteList = None
         self.items_list: arcade.SpriteList = None
-        self.bkg_list: arcade.SpriteList = None
+        
+        self.sky_list: arcade.SpriteList = None
+        self.bkg_back_list: arcade.SpriteList = None
+        self.bkg_front_list: arcade.SpriteList = None
         
         self.owl_list: arcade.SpriteList = None
         self.cat_dummy_list: arcade.SpriteList = None
@@ -168,7 +171,6 @@ class GameView(arcade.View):
 
         # create sprite lists
         self.bullet_list = arcade.SpriteList()
-        self.bkg_list = arcade.SpriteList()
 
         # Read in the tiled map
         map_name = "resources/maps/map.tmx"
@@ -177,6 +179,9 @@ class GameView(arcade.View):
         # Read in the map layers to specific lists
         self.stage_list = arcade.tilemap.process_layer(game_map, 'stage', SPRITE_SCALING_TILES)
         self.items_list = arcade.tilemap.process_layer(game_map, 'items', SPRITE_SCALING_TILES)
+        self.sky_list = arcade.tilemap.process_layer(game_map, 'sky', SPRITE_SCALING_TILES)
+        self.bkg_back_list = arcade.tilemap.process_layer(game_map, 'bkg_back', SPRITE_SCALING_TILES)
+        self.bkg_front_list = arcade.tilemap.process_layer(game_map, 'bkg_front', SPRITE_SCALING_TILES)
         
         # add owls
         self.owl_dummy_list = arcade.tilemap.process_layer(game_map, 'owls', SPRITE_SCALING_TILES)
@@ -227,7 +232,8 @@ class GameView(arcade.View):
         # ------
         self.racoon_boss_list = arcade.SpriteList()
         racoon_boss_sprite = RacoonBossSprite(scale=SPRITE_SCALING_PLAYER)
-        racoon_boss_sprite.position = self.player_sprite.position + (500,0)
+        racoon_boss_sprite.center_x = self.player_sprite.center_x + 500
+        racoon_boss_sprite.center_y = 192
         self.racoon_boss_list.append(racoon_boss_sprite)
 
         # setup the physics engine
@@ -475,8 +481,11 @@ class GameView(arcade.View):
             if racoon_boss.center_x < 2000:
                 self.physics_engine.apply_force(racoon_boss, force)
             if racoon_boss.center_x > 2000 and racoon_boss.center_x < 2500:
-                racoon_boss.position = (17920,racoon_boss.center_y)
-                #self.physics_engine.set_position(racoon_boss,(17920,racoon_boss.center_y))
+                #racoon_boss.position = (17920,racoon_boss.center_y)
+                #self.physics_engine.apply_force(racoon_boss, (0,0))
+                self.physics_engine.set_position(racoon_boss,(17920,192))
+                self.physics_engine.set_velocity(racoon_boss,(0,0))
+                self.physics_engine.set_friction(racoon_boss,1.0)
 
         # Move items in the physics engine
         self.physics_engine.step()
@@ -487,7 +496,7 @@ class GameView(arcade.View):
         # Trigger game over using these commands as appropriate
         # view = GameOverView()
         # self.window.show_view(view)
-        print(self.player_list[0].position)
+        print(self.racoon_boss_list[0].position)
 
     def on_draw(self):
         """Draw everything to screen."""
@@ -497,7 +506,9 @@ class GameView(arcade.View):
         # 'with' statement. Nothing is rendered to the screen yet, just the light
         # layer.
         with self.light_layer:
-            self.bkg_list.draw()
+            self.sky_list.draw()
+            self.bkg_back_list.draw()
+            self.bkg_front_list.draw()
             self.stage_list.draw()
             self.items_list.draw()
             self.player_list.draw()
@@ -506,6 +517,7 @@ class GameView(arcade.View):
             self.cat_list.draw()
             self.racoon_list.draw()
             self.racoon_boss_list.draw()
+            
 
         # Draw the light layer to the screen.
         # This fills the entire screen with the lit version

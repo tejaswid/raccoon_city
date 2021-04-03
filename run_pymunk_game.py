@@ -28,7 +28,7 @@ SPRITE_SIZE = int(SPRITE_IMAGE_SIZE * SPRITE_SCALING_PLAYER)
 
 # Size of grid to show on screen, in number of tiles
 NUM_TILES_ALONG_WIDTH = 10
-NUM_TILES_ALONG_HEIGHT = 6
+NUM_TILES_ALONG_HEIGHT = 7
 
 # Size of screen to show, in pixels
 global SCREEN_WIDTH

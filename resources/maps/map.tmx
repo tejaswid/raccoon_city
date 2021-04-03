@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="150" height="8" tilewidth="128" tileheight="128" infinite="0" nextlayerid="11" nextobjectid="2">
- <tileset firstgid="1" name="stage" tilewidth="190" tileheight="128" tilecount="6" columns="0">
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="150" height="7" tilewidth="128" tileheight="128" infinite="0" nextlayerid="13" nextobjectid="3">
+ <tileset firstgid="1" name="stage" tilewidth="190" tileheight="768" tilecount="6" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
    <image width="128" height="128" source="../images/tiles/stage/stage_0.png"/>
@@ -32,11 +32,11 @@
   <tile id="4">
    <image width="190" height="128" source="../images/tiles/stage/stage_test.png"/>
   </tile>
-  <tile id="5">
-   <image width="5" height="128" source="../images/tiles/stage/stage_end.png"/>
+  <tile id="7">
+   <image width="5" height="768" source="../images/tiles/stage/stage_end.png"/>
   </tile>
  </tileset>
- <tileset firstgid="7" name="items" tilewidth="59" tileheight="39" tilecount="1" columns="0">
+ <tileset firstgid="9" name="items" tilewidth="59" tileheight="39" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="1">
    <image width="59" height="39" source="../images/tiles/items/doughnut60x40.png"/>
@@ -47,7 +47,7 @@
    </objectgroup>
   </tile>
  </tileset>
- <tileset firstgid="9" name="sky" tilewidth="128" tileheight="128" tilecount="3" columns="0">
+ <tileset firstgid="11" name="sky" tilewidth="128" tileheight="128" tilecount="4" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
    <image width="128" height="128" source="../images/tiles/sky/cloud.png"/>
@@ -58,10 +58,13 @@
   <tile id="2">
    <image width="128" height="128" source="../images/tiles/sky/sky.png"/>
   </tile>
+  <tile id="3">
+   <image width="128" height="128" source="../images/backgrounds/skyGrey.png"/>
+  </tile>
  </tileset>
- <tileset firstgid="12" source="owls.tsx"/>
- <tileset firstgid="15" source="cats.tsx"/>
- <tileset firstgid="16" name="racoon" tilewidth="70" tileheight="87" tilecount="4" columns="0">
+ <tileset firstgid="15" source="owls.tsx"/>
+ <tileset firstgid="18" source="cats.tsx"/>
+ <tileset firstgid="19" name="racoon" tilewidth="70" tileheight="87" tilecount="4" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
    <image width="70" height="87" source="../images/racoon/racoon_0.png"/>
@@ -76,46 +79,48 @@
    <image width="70" height="87" source="../images/racoon/racoon_3.png"/>
   </tile>
  </tileset>
- <tileset firstgid="20" source="buildings.tsx"/>
- <layer id="5" name="sky" width="150" height="8">
+ <tileset firstgid="23" source="buildings.tsx"/>
+ <layer id="12" name="sky" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztlDsKACEUA21X73/fbbYSf8GI7GMG0miMItGUAAD+Qan0NMaU+VWP4nOv393XldHKi8LuHSlrFW/+5Mw+ddaRX32nUbj1Pmf5vV65/0LF5+jlLCMKJ7uCdEXh9j0ieoXo1SovUDsZkQ==
+   eJztwzENAAAMA6AqqH+5M9FvkNAk1XEAAAB+OiBTCDU=
   </data>
  </layer>
- <layer id="2" name="bkg_back" width="150" height="8">
+ <layer id="2" name="bkg_back" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztzTEBAAAMAiBz2D+oJbYPCpAAAAAA3KjD8WDoCACd
+   eJztzTEBAAAMAiC72L+jKXYNCpAAAADwUR2OAwMvkwDT
   </data>
  </layer>
- <layer id="4" name="bkg_front" width="150" height="8">
+ <layer id="4" name="bkg_front" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJzt0zsKACAMRMHcwkLR+99S0kfY4K95U8oahVUzAAAAAFiryXxLZEewVpLn4S7vQ+k06k3ptyfm7eRUPk9586fv9yu3s5+/ipcmu6ACDQ==
+   eJzt0zsKACAMREHPYaHo/Q8p6VNsiB+QN6WsUVgtBQAAAL9owXwPZKezVoPn4SzrQ+nU603pdwTmZXIqm6e8+d33e5XL7Oev4qYFv0cCTA==
   </data>
  </layer>
- <layer id="8" name="owls" width="150" height="8">
+ <layer id="8" name="owls" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztzjEBAAAMAiALrH/dxdADEpAAAG3XDgAAwLAHpDAADg==
+   eJztzjEBAAAIA6BFsH9aM+zSAxKQANCY6wAAADy2w2gAEQ==
   </data>
  </layer>
- <layer id="10" name="racoon" width="150" height="8">
+ <layer id="10" name="racoon" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztzjENAAAIA7BJwL9aPOwhIa2CJgAAANCb6wDw3gJZQAAR
+   eJztzgENAAAIA6B3sH9XY3xTSEACAAB8Me0AcN4CZCAAFA==
   </data>
  </layer>
- <layer id="3" name="items" width="150" height="8">
+ <layer id="3" name="items" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJzt0DEKACAMA8CO/v/F7iIoYqXg3VpoQiIAAABytMPbbWPWy+yfrHattPusS0a/3Z+VtoGKOoYPAFE=
+   eJzt0EEKACEMA8Cc/f+D9y6Ci6gUnLkWmpAEAACStnjbrc+6mf2S2a6Vdh91OdHv789K20BFH+CHAGU=
   </data>
  </layer>
- <layer id="1" name="stage" width="150" height="8">
+ <layer id="1" name="stage" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztk+EKgDAIhM1F7//IbT8GIbScuhrtPrhfS9HzIgIAAADW5Ph6ADAFKWvL2gN7IVtrU3NQ5cnWtdfsuSqzMvn35YA+f0NmypMt2cuSK82tk+L96dZyVlbWsJDHt8hMRvwjUdxlyuqRrJc30EhTr31vfdfa21rTu3eEXz2+vaWRHhWdLdsBvQ==
+   eJztk80OwCAIgx3usPd/4unBZCGZInTLfvolPSmNQE2JEEIIeQe5aClagV7k37QcNEWydfR6OvWtkuL9CsDna+hMRbKlvTanx2hH2XA+2rV+qxhrRCkyN2QmEX8ExVmmvDPS9XoHFlnqree9e72+vTWzfSPmNTO3u3TljKp2i/wBrQ==
   </data>
  </layer>
- <layer id="9" name="cats" width="150" height="8">
+ <layer id="9" name="cats" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztzgEJAAAIA7A3sH9bUxwRtgRLAAAAoGuuA8BrC1K8ABA=
+   eJztzjENAAAIA7BpwL9YzkkgJK2CJgAAADXXAeC1BV0wABM=
   </data>
  </layer>
- <objectgroup id="6" name="obstacles"/>
+ <objectgroup id="6" name="obstacles">
+  <object id="2" gid="8" x="17370.7" y="768.848" width="5" height="768"/>
+ </objectgroup>
 </map>
