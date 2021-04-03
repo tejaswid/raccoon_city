@@ -102,7 +102,7 @@
  </layer>
  <layer id="10" name="racoon" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztzgENAAAIA6B3sH9XY3xTSEACAAB8Me0AcN4CZCAAFA==
+   eJzt0EERAAAIw7B5wL9XbHAsEdBHEwAAoMUc63zlD80W64AAOg==
   </data>
  </layer>
  <layer id="3" name="items" width="150" height="7">
@@ -112,12 +112,12 @@
  </layer>
  <layer id="1" name="stage" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztk80OwCAIgx3usPd/4unBZCGZInTLfvolPSmNQE2JEEIIeQe5aClagV7k37QcNEWydfR6OvWtkuL9CsDna+hMRbKlvTanx2hH2XA+2rV+qxhrRCkyN2QmEX8ExVmmvDPS9XoHFlnqree9e72+vTWzfSPmNTO3u3TljKp2i/wBrQ==
+   eJztk80OgCAMg+fw4Ps/sXAgMY3AYDv40y/pCdvAVkUIIYSQd5Cytqw9MIv8m9qDKk+3rllPp9xVxf9eDcj5GtgpT7cw61jMGO0oGc5Hu8a7qtGjIM/cIjsZ8Y9E0erU6ozQjzuwyOK3nve+67171XPnrVjvKeBFTyvPO/dIzc5oNusEfjQBoQ==
   </data>
  </layer>
  <layer id="9" name="cats" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztzjENAAAIA7BpwL9YzkkgJK2CJgAAADXXAeC1BV0wABM=
+   eJztzrENAAAEADA3+P9Yo9kkor2gEQAAAC23AwOXrvBFAZ3gACU=
   </data>
  </layer>
  <layer id="13" name="game_end_marker" width="150" height="7">
