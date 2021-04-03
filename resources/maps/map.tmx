@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="150" height="7" tilewidth="128" tileheight="128" infinite="0" nextlayerid="13" nextobjectid="3">
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="150" height="7" tilewidth="128" tileheight="128" infinite="0" nextlayerid="14" nextobjectid="3">
  <tileset firstgid="1" name="stage" tilewidth="190" tileheight="768" tilecount="6" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
@@ -120,7 +120,9 @@
    eJztzjENAAAIA7BpwL9YzkkgJK2CJgAAADXXAeC1BV0wABM=
   </data>
  </layer>
- <objectgroup id="6" name="obstacles">
-  <object id="2" gid="8" x="17370.7" y="768.848" width="5" height="768"/>
- </objectgroup>
+ <layer id="13" name="game_end_marker" width="150" height="7">
+  <data encoding="base64" compression="zlib">
+   eJztzjENAAAIA7Cd+FfMOweEpFXQBAAAgM/mOgBlASToAAk=
+  </data>
+ </layer>
 </map>

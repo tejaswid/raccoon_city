@@ -98,6 +98,7 @@ class GameView(arcade.View):
         self.cat_list: arcade.SpriteList = None
         self.racoon_list: arcade.SpriteList = None
         self.racoon_boss_list: arcade.SpriteList = None
+        self.game_end_marker_list: arcade.SpriteList = None
 
         # Player sprite
         self.player_sprite: PlayerSprite = None
@@ -236,6 +237,11 @@ class GameView(arcade.View):
         racoon_boss_sprite.center_y = 192
         self.racoon_boss_list.append(racoon_boss_sprite)
 
+        # ------
+        # add game end marker
+        # ------
+        self.game_end_marker_list = arcade.tilemap.process_layer(game_map, 'game_end_marker', SPRITE_SCALING_TILES)
+
         # setup the physics engine
         damping = DEFAULT_DAMPING
         gravity = (0, -GRAVITY)
@@ -301,6 +307,14 @@ class GameView(arcade.View):
                                             moment=arcade.PymunkPhysicsEngine.MOMENT_INF)
         
         self.physics_engine.add_collision_handler("player", "racoonboss", post_handler=self.racoon_boss_hit_handler)
+
+        # racoon boss
+        self.physics_engine.add_sprite_list(self.game_end_marker_list,
+                                            collision_type="gameend",
+                                            body_type=arcade.PymunkPhysicsEngine.STATIC,
+                                            moment=arcade.PymunkPhysicsEngine.MOMENT_INF)
+        
+        self.physics_engine.add_collision_handler("player", "gameend", post_handler=self.gameend_hit_handler)
 
         # Initialize score to zero
         self.score = 0
@@ -398,6 +412,13 @@ class GameView(arcade.View):
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score -= 1
+
+    def gameend_hit_handler(self, player_sprite, gameend_sprite, _arbiter, _space, _data):
+        """Handle collision between player and game end marker"""
+        print("player hit game end")
+        # Play a sound
+        arcade.play_sound(self.collect_coin_sound)
+        # transition to next stage here
 
     def on_update(self, delta_time):
         """Update positions and game logic. This function is called 60 times a second.
