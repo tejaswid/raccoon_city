@@ -232,7 +232,7 @@ class GameView(arcade.View):
         grid_x = 1
         grid_y = 1
         self.player_sprite.center_x = self.sprite_size * grid_x + self.sprite_size / 2
-        self.player_sprite.center_y = self.sprite_size * grid_y + self.sprite_size / 2
+        self.player_sprite.center_y = self.sprite_size * grid_y + self.sprite_size / 2 + 40
 
         # Add to player sprite list
         self.player_list = arcade.SpriteList()
@@ -579,6 +579,9 @@ class GameView(arcade.View):
                 self.count_lagging = 0
                 self.player_movement_speed = PLAYER_MOVE_FORCE_ON_GROUND
 
+        if self.player_list[0].center_y < 100:
+            self.trigger_gameover()
+
 
     def on_draw(self):
         """Draw everything to screen."""
@@ -644,16 +647,16 @@ class GameView(arcade.View):
                 changed_viewport = True
 
         # Scroll up
-        top_boundary = self.view_bottom + self.screen_height - TOP_VIEWPORT_MARGIN
-        if self.player_sprite.top > top_boundary:
-            self.view_bottom += self.player_sprite.top - top_boundary
-            changed_viewport = True
+        # top_boundary = self.view_bottom + self.screen_height - TOP_VIEWPORT_MARGIN
+        # if self.player_sprite.top > top_boundary:
+        #     self.view_bottom += self.player_sprite.top - top_boundary
+        #     changed_viewport = True
 
-        # Scroll down
-        bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
-        if self.player_sprite.bottom < bottom_boundary:
-            self.view_bottom -= bottom_boundary - self.player_sprite.bottom
-            changed_viewport = True
+        # # Scroll down
+        # bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
+        # if self.player_sprite.bottom < bottom_boundary:
+        #     self.view_bottom -= bottom_boundary - self.player_sprite.bottom
+        #     changed_viewport = True
 
         if changed_viewport:
             # Only scroll to integers. Otherwise we end up with pixels that
