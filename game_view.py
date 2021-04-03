@@ -463,7 +463,6 @@ class GameView(arcade.View):
         """Handle collision between player and game end marker"""
         print("player hit game end")
         # Play a sound
-        arcade.play_sound(self.heckle_sound)
         # transition to next stage here
 
     def trigger_slowdown(self):
@@ -678,6 +677,8 @@ class GameView(arcade.View):
         "Trigger game over"
         print("game over")
         game_over_view = GameOverView(self.screen_width, self.screen_height, self.sprite_size)
+        self.current_player.pause()
+        arcade.play_sound(self.heckle_sound)
         self.window.show_view(game_over_view)
 
 
