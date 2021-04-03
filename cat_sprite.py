@@ -63,8 +63,11 @@ class CatSprite(arcade.Sprite):
             bullet = arcade.SpriteSolidColor(20, 5, arcade.color.PINK_SHERBET)
             bullet.position = self.position
             
-            dest_x = (self.center_x + player.center_x) / 2
-            dest_y = self.center_y - self.height/2
+            # dest_x = (self.center_x + player.center_x) / 2
+            # dest_y = self.center_y - self.height/2
+
+            dest_x = player.center_x
+            dest_y = self.center_y * 0.75
 
             x_diff = dest_x - start_x
             y_diff = dest_y - start_y
@@ -87,7 +90,7 @@ class CatSprite(arcade.Sprite):
                                        gravity=bullet_gravity,
                                        elasticity=0.9)
 
-            force = (4500, 0)
+            force = (5000, 0)
             physics_engine.apply_force(bullet, force)
             physics_engine.set_velocity(bullet,(0.01,0.01))
             bullet_list.append(bullet)
