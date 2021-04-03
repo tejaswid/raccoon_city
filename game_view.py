@@ -56,7 +56,7 @@ RACOON_MAX_HORIZONTAL_SPEED = 300
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
 LEFT_VIEWPORT_MARGIN = 250
-RIGHT_VIEWPORT_MARGIN = 250
+RIGHT_VIEWPORT_MARGIN = 500
 BOTTOM_VIEWPORT_MARGIN = 50
 TOP_VIEWPORT_MARGIN = 50
 
@@ -155,6 +155,8 @@ class GameView(arcade.View):
         # time
         self.game_time_elapsed = 0
         self.timer_bar = None
+
+        self.player_movement_speed = PLAYER_MOVE_FORCE_ON_GROUND
 
     def setup(self):
         """Set the game up. Call this function to restart the game.
@@ -336,6 +338,8 @@ class GameView(arcade.View):
                                             body_type=arcade.PymunkPhysicsEngine.KINEMATIC,
                                             moment=arcade.PymunkPhysicsEngine.MOMENT_INF)
 
+        self.physics_engine.add_collision_handler("player", "bullet", post_handler=self.bubblegum_hit_handler)
+
         # Initialize score to zero
         self.score = 0
 
@@ -344,6 +348,10 @@ class GameView(arcade.View):
 
         # Reset the viewport
         arcade.set_viewport(0, self.screen_width - 1, 0, self.screen_height - 1)
+
+        self.count_lagging = 0
+        self.start_lagging = False
+        self.max_lagging_time = 2
 
     def on_key_press(self, key, modifiers):
         """Handle a key press.
@@ -400,6 +408,8 @@ class GameView(arcade.View):
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score += 1
+        self.player_movement_speed = PLAYER_MOVE_FORCE_ON_GROUND * 2
+        self.start_lagging = True
 
     def owl_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
         """Handle collision between player and owl"""
@@ -408,6 +418,7 @@ class GameView(arcade.View):
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score -= 1
+        self.trigger_slowdown()
 
     def cat_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
         """Handle collision between player and cat"""
@@ -416,6 +427,16 @@ class GameView(arcade.View):
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score -= 1
+        self.trigger_slowdown()
+
+    def bubblegum_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
+        """Handle collision between player and bubblegum"""
+        print("player hit bubblegum")
+        # Play a sound
+        arcade.play_sound(self.collect_coin_sound)
+        # Update the score
+        self.score -= 1
+        self.trigger_slowdown()
 
     def racoon_hit_handler(self, player_sprite, racoon_sprite, _arbiter, _space, _data):
         """Handle collision between player and racoon"""
@@ -424,6 +445,7 @@ class GameView(arcade.View):
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score -= 1
+        self.trigger_slowdown()
 
     def racoon_boss_hit_handler(self, player_sprite, racoon_boss_sprite, _arbiter, _space, _data):
         """Handle collision between player and racoon boss"""
@@ -440,6 +462,11 @@ class GameView(arcade.View):
         arcade.play_sound(self.collect_coin_sound)
         # transition to next stage here
 
+    def trigger_slowdown(self):
+        self.player_movement_speed = PLAYER_MOVE_FORCE_ON_GROUND * 0.2
+        self.start_lagging = True
+        # self.game_time_elapsed += 0.5
+
     def on_update(self, delta_time):
         """Update positions and game logic. This function is called 60 times a second.
 
@@ -452,7 +479,7 @@ class GameView(arcade.View):
         if self.left_pressed and not self.right_pressed:
             # Create a force to the left. Apply it.
             if is_on_ground:
-                force = (-PLAYER_MOVE_FORCE_ON_GROUND, 0)   # apply ground force
+                force = (-self.player_movement_speed, 0)   # apply ground force
             else:
                 force = (-PLAYER_MOVE_FORCE_IN_AIR, 0)  # apply air force
             self.physics_engine.apply_force(self.player_sprite, force)
@@ -461,7 +488,7 @@ class GameView(arcade.View):
         elif self.right_pressed and not self.left_pressed:
             # Create a force to the right. Apply it.
             if is_on_ground:
-                force = (PLAYER_MOVE_FORCE_ON_GROUND, 0)   # apply ground force
+                force = (self.player_movement_speed, 0)   # apply ground force
             else:
                 force = (PLAYER_MOVE_FORCE_IN_AIR, 0)  # apply air force
             self.physics_engine.apply_force(self.player_sprite, force)
@@ -544,6 +571,13 @@ class GameView(arcade.View):
             self.physics_engine.set_position(tb, (self.view_left + 640 - (self.game_time_elapsed * 1280/GAME_LENGTH), 64))
         if self.game_time_elapsed > GAME_LENGTH:
             self.trigger_gameover()
+
+        if self.start_lagging:
+            self.count_lagging += delta_time
+            if self.count_lagging > self.max_lagging_time:
+                self.start_lagging = False
+                self.count_lagging = 0
+                self.player_movement_speed = PLAYER_MOVE_FORCE_ON_GROUND
 
 
     def on_draw(self):
