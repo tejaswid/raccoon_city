@@ -94,10 +94,13 @@ class GameView(arcade.View):
         self.cat_dummy_list: arcade.SpriteList = None
         self.cat_list: arcade.SpriteList = None
         self.racoon_list: arcade.SpriteList = None
+        self.racoon_boss_list: arcade.SpriteList = None
 
         # Player sprite
         self.player_sprite: PlayerSprite = None
-        #self.player_sprite: RacoonBossSprite = None
+
+        # Racoon boss sprite
+        self.racoon_boss_sprite: RacoonBossSprite = None
 
         # Track the current state of what key is pressed
         self.left_pressed: bool = False
@@ -185,6 +188,7 @@ class GameView(arcade.View):
             real_owl.position = owl.position
             self.owl_list.append(real_owl)
 
+        # add racoon minions
         racoon_dummy_list = arcade.tilemap.process_layer(game_map, 'racoon', SPRITE_SCALING_TILES)
         self.racoon_list = arcade.SpriteList()
         for racoon in racoon_dummy_list:
@@ -218,6 +222,14 @@ class GameView(arcade.View):
         self.player_list = arcade.SpriteList()
         self.player_list.append(self.player_sprite)
 
+        # ------
+        # add racoon boss
+        # ------
+        self.racoon_boss_list = arcade.SpriteList()
+        racoon_boss_sprite = RacoonBossSprite(scale=SPRITE_SCALING_PLAYER)
+        racoon_boss_sprite.position = self.player_sprite.position + (10,0)
+        self.racoon_boss_list.append(racoon_boss_sprite)
+
         # setup the physics engine
         damping = DEFAULT_DAMPING
         gravity = (0, -GRAVITY)
@@ -250,19 +262,14 @@ class GameView(arcade.View):
         # Items.
         self.physics_engine.add_sprite_list(self.items_list,
                                             friction=DYNAMIC_ITEM_FRICTION,
-                                            collision_type="item")  
+                                            collision_type="item")
+
         self.physics_engine.add_collision_handler("player", "item", post_handler=self.item_hit_handler)
 
         # Owls
         self.physics_engine.add_sprite_list(self.owl_list,
                                             collision_type="owl",
                                             body_type=arcade.PymunkPhysicsEngine.KINEMATIC)
-
-        self.physics_engine.add_sprite_list(self.racoon_list,
-                                            collision_type="racoon",
-                                            body_type=arcade.PymunkPhysicsEngine.DYNAMIC,
-                                            moment=arcade.PymunkPhysicsEngine.MOMENT_INF)
-
 
         self.physics_engine.add_collision_handler("player", "owl", post_handler=self.owl_hit_handler)
 
@@ -273,7 +280,21 @@ class GameView(arcade.View):
 
         self.physics_engine.add_collision_handler("player", "cat", post_handler=self.cat_hit_handler)
 
+        # racoon minions
+        self.physics_engine.add_sprite_list(self.racoon_list,
+                                            collision_type="racoon",
+                                            body_type=arcade.PymunkPhysicsEngine.DYNAMIC,
+                                            moment=arcade.PymunkPhysicsEngine.MOMENT_INF)
+
         self.physics_engine.add_collision_handler("player", "racoon", post_handler=self.racoon_hit_handler)
+
+        # racoon boss
+        self.physics_engine.add_sprite_list(self.racoon_boss_list,
+                                            collision_type="racoonboss",
+                                            body_type=arcade.PymunkPhysicsEngine.DYNAMIC,
+                                            moment=arcade.PymunkPhysicsEngine.MOMENT_INF)
+        
+        self.physics_engine.add_collision_handler("player", "racoonboss", post_handler=self.racoon_boss_hit_handler)
 
         # Initialize score to zero
         self.score = 0
@@ -363,6 +384,14 @@ class GameView(arcade.View):
     def racoon_hit_handler(self, player_sprite, racoon_sprite, _arbiter, _space, _data):
         """Handle collision between player and racoon"""
         print("player hit racoon")
+        # Play a sound
+        arcade.play_sound(self.collect_coin_sound)
+        # Update the score
+        self.score -= 1
+
+    def racoon_boss_hit_handler(self, player_sprite, racoon_boss_sprite, _arbiter, _space, _data):
+        """Handle collision between player and racoon boss"""
+        print("player hit racoon boss")
         # Play a sound
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
@@ -470,6 +499,7 @@ class GameView(arcade.View):
             self.owl_list.draw()
             self.cat_list.draw()
             self.racoon_list.draw()
+            self.racoon_boss_list.draw()
 
         # Draw the light layer to the screen.
         # This fills the entire screen with the lit version
