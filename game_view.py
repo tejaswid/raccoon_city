@@ -10,6 +10,7 @@ from arcade.experimental.lights import Light, LightLayer
 
 from player_sprite import PlayerSprite
 from owl_sprite import OwlSprite
+from cat_sprite import CatSprite
 from racoon_boss_sprite import RacoonBossSprite
 
 # Scale sprites up or down
@@ -85,6 +86,8 @@ class GameView(arcade.View):
         self.bkg_list: arcade.SpriteList = None
         self.owl_dummy_list: arcade.SpriteList = None
         self.owl_list: arcade.SpriteList = None
+        self.cat_dummy_list: arcade.SpriteList = None
+        self.cat_list: arcade.SpriteList = None
 
         # Player sprite
         self.player_sprite: PlayerSprite = None
@@ -165,6 +168,8 @@ class GameView(arcade.View):
         # Read in the map layers to specific lists
         self.stage_list = arcade.tilemap.process_layer(game_map, 'stage', SPRITE_SCALING_TILES)
         self.items_list = arcade.tilemap.process_layer(game_map, 'items', SPRITE_SCALING_TILES)
+        
+        # add owls
         self.owl_dummy_list = arcade.tilemap.process_layer(game_map, 'owls', SPRITE_SCALING_TILES)
 
         self.owl_list = arcade.SpriteList()
@@ -172,6 +177,15 @@ class GameView(arcade.View):
             realOwl = OwlSprite(scale=SPRITE_SCALING_PLAYER)
             realOwl.position = owl.position
             self.owl_list.append(realOwl)
+
+        # add cats
+        self.cat_dummy_list = arcade.tilemap.process_layer(game_map, 'cats', SPRITE_SCALING_TILES)
+
+        self.cat_list = arcade.SpriteList()
+        for cat in self.cat_dummy_list:
+            realCat = CatSprite(scale=SPRITE_SCALING_PLAYER)
+            realCat.position = cat.position
+            self.cat_list.append(realCat)
 
         # --------
         # Player
@@ -231,6 +245,15 @@ class GameView(arcade.View):
                                             body_type=arcade.PymunkPhysicsEngine.KINEMATIC)
 
         self.physics_engine.add_collision_handler("player", "owl", post_handler=self.owl_hit_handler)
+
+        # Cats
+        self.physics_engine.add_sprite_list(self.cat_list,
+                                            collision_type="cat",
+                                            body_type=arcade.PymunkPhysicsEngine.KINEMATIC)
+
+        self.physics_engine.add_collision_handler("player", "cat", post_handler=self.cat_hit_handler)
+
+
         # Initialize score to zero
         self.score = 0
 
@@ -289,19 +312,26 @@ class GameView(arcade.View):
             self.right_pressed = False
 
     def item_hit_handler(self, player_sprite, item_sprite, _arbiter, _space, _data):
-            """Handle collision between player and item"""
-            item_sprite.remove_from_sprite_lists()
-            # Play a sound
-            arcade.play_sound(self.collect_coin_sound)
-            # Update the score
-            self.score += 1
+        """Handle collision between player and item"""
+        item_sprite.remove_from_sprite_lists()
+        # Play a sound
+        arcade.play_sound(self.collect_coin_sound)
+        # Update the score
+        self.score += 1
 
     def owl_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
-            """Handle collision between player and owl"""
-            # Play a sound
-            arcade.play_sound(self.collect_coin_sound)
-            # Update the score
-            self.score -= 1
+        """Handle collision between player and owl"""
+        # Play a sound
+        arcade.play_sound(self.collect_coin_sound)
+        # Update the score
+        self.score -= 1
+
+    def cat_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
+        """Handle collision between player and owl"""
+        # Play a sound
+        arcade.play_sound(self.collect_coin_sound)
+        # Update the score
+        self.score -= 1
 
     def on_update(self, delta_time):
         """Update positions and game logic. This function is called 60 times a second.
@@ -336,10 +366,16 @@ class GameView(arcade.View):
 
         # make owl attack player if it they are close to it
         for owl in self.owl_list:
-            
             if arcade.get_distance_between_sprites(self.player_sprite,owl) < 500:
                 print(arcade.get_distance_between_sprites(self.player_sprite,owl))
                 owl.attack_player(self.player_sprite, self.physics_engine, delta_time)
+
+        # make cat attack player if it they are close to it
+        for cat in self.cat_list:
+            if arcade.get_distance_between_sprites(self.player_sprite,cat) < 250:
+                print(arcade.get_distance_between_sprites(self.player_sprite,cat))
+                cat.attack_player(self.player_sprite, self.bullet_list, self.physics_engine, delta_time)
+
 
 
         # Move items in the physics engine
@@ -366,6 +402,7 @@ class GameView(arcade.View):
             self.player_list.draw()
             self.bullet_list.draw()
             self.owl_list.draw()
+            self.cat_list.draw()
 
         # Draw the light layer to the screen.
         # This fills the entire screen with the lit version
