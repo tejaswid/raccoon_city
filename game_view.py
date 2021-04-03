@@ -71,6 +71,9 @@ AMBIENT_COLOR = (200, 200, 200)
 # --- Music
 SOUNDTRACK_VOLUME = 0.6
 
+# --- Game times
+GAME_LENGTH = 30
+
 class GameView(arcade.View):
     """Main Game class."""
 
@@ -147,6 +150,9 @@ class GameView(arcade.View):
         self.light_layer = None
         # Individual light we move with player, and turn on/off
         self.player_light = None
+
+        # time
+        self.game_time_elapsed = 0
 
     def setup(self):
         """Set the game up. Call this function to restart the game.
@@ -519,6 +525,8 @@ class GameView(arcade.View):
         # self.window.show_view(view)
         print(self.racoon_boss_list[0].position)
 
+        self.game_time_elapsed += delta_time
+
     def on_draw(self):
         """Draw everything to screen."""
         arcade.start_render()
@@ -547,8 +555,8 @@ class GameView(arcade.View):
 
         # Draw the score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
-        #arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
-        #                 arcade.csscolor.WHITE, 18)
+        arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
+                        arcade.csscolor.WHITE, 18, font_name=['arial'])
 
         # --- Manage Scrolling ---
 
