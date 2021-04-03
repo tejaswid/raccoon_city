@@ -72,7 +72,7 @@ AMBIENT_COLOR = (200, 200, 200)
 SOUNDTRACK_VOLUME = 0.6
 
 # --- Game times
-GAME_LENGTH = 1000
+GAME_LENGTH = 46
 
 class GameView(arcade.View):
     """Main Game class."""

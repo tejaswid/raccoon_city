@@ -92,12 +92,12 @@
  </layer>
  <layer id="4" name="bkg_front" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJzt0zsKACAMREHPYaHo/Q8p6VNsiB+QN6WsUVgtBQAAAL9owXwPZKezVoPn4SzrQ+nU603pdwTmZXIqm6e8+d33e5XL7Oev4qYFv0cCTA==
+   eJzt0rEKwCAMhGGfoaNDpb7/Q0oGwSEtOUwX+b9RjkQ8SwEAAMApbjHfhGx3zqq4D/+yPiKder1F+n2EeTu5KJsX+fMZ91v3zNzbe6y52Yf3vuYS5n3tycgAWQbVBQL/
   </data>
  </layer>
  <layer id="8" name="owls" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztzjEBAAAIA6BFsH9aM+zSAxKQANCY6wAAADy2w2gAEQ==
+   eJzt0zERADAIBEEk4F8tHpICGHYV3BcfAUyS3QEPNjb/uLYXuvkcAOxSzoYAQQ==
   </data>
  </layer>
  <layer id="10" name="racoon" width="150" height="7">
@@ -122,7 +122,7 @@
  </layer>
  <layer id="13" name="game_end_marker" width="150" height="7">
   <data encoding="base64" compression="zlib">
-   eJztzjENAAAIA7Cd+FfMOweEpFXQBAAAgM/mOgBlASToAAk=
+   eJztzjENAAAIA7Cd+FfMXJCQVkETAAAAPpjrANQCJKgACQ==
   </data>
  </layer>
 </map>
