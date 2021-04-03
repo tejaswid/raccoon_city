@@ -436,6 +436,14 @@ class GameView(arcade.View):
                     self.physics_engine.set_friction(racoon, 1.0)
                     continue
 
+        for bullet in self.bullet_list:
+            print("bullet velocity {}".format(bullet.velocity))
+            #if bullet.velocity[1] < 0.005 and bullet.velocity[0] < 0.005:
+            if self.physics_engine.is_on_ground(bullet):    
+                bullet.angle = 0
+                bullet.texture = arcade.load_texture(os.path.join("resources/images/cat", "bubblegum.png"))
+                self.physics_engine.set_velocity(bullet,(0,0))
+
         # Move items in the physics engine
         self.physics_engine.step()
 
