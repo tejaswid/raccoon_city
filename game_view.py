@@ -91,12 +91,9 @@ class GameView(arcade.View):
         self.bkg_list: arcade.SpriteList = None
         
         self.owl_list: arcade.SpriteList = None
-<<<<<<< HEAD
         self.cat_dummy_list: arcade.SpriteList = None
         self.cat_list: arcade.SpriteList = None
-=======
         self.racoon_list: arcade.SpriteList = None
->>>>>>> 4f8c8e56b403255f5ed5fe01ce6e60939b9c1742
 
         # Player sprite
         self.player_sprite: PlayerSprite = None
@@ -178,13 +175,10 @@ class GameView(arcade.View):
         self.stage_list = arcade.tilemap.process_layer(game_map, 'stage', SPRITE_SCALING_TILES)
         self.items_list = arcade.tilemap.process_layer(game_map, 'items', SPRITE_SCALING_TILES)
         
-<<<<<<< HEAD
         # add owls
         self.owl_dummy_list = arcade.tilemap.process_layer(game_map, 'owls', SPRITE_SCALING_TILES)
 
-=======
         owl_dummy_list = arcade.tilemap.process_layer(game_map, 'owls', SPRITE_SCALING_TILES)
->>>>>>> 4f8c8e56b403255f5ed5fe01ce6e60939b9c1742
         self.owl_list = arcade.SpriteList()
         for owl in owl_dummy_list:
             real_owl = OwlSprite(scale=SPRITE_SCALING_PLAYER)
@@ -271,7 +265,6 @@ class GameView(arcade.View):
 
 
         self.physics_engine.add_collision_handler("player", "owl", post_handler=self.owl_hit_handler)
-<<<<<<< HEAD
 
         # Cats
         self.physics_engine.add_sprite_list(self.cat_list,
@@ -280,9 +273,7 @@ class GameView(arcade.View):
 
         self.physics_engine.add_collision_handler("player", "cat", post_handler=self.cat_hit_handler)
 
-=======
         self.physics_engine.add_collision_handler("player", "racoon", post_handler=self.racoon_hit_handler)
->>>>>>> 4f8c8e56b403255f5ed5fe01ce6e60939b9c1742
 
         # Initialize score to zero
         self.score = 0
@@ -350,7 +341,6 @@ class GameView(arcade.View):
         self.score += 1
 
     def owl_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
-<<<<<<< HEAD
         """Handle collision between player and owl"""
         # Play a sound
         arcade.play_sound(self.collect_coin_sound)
@@ -363,7 +353,6 @@ class GameView(arcade.View):
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score -= 1
-=======
             """Handle collision between player and owl"""
             print("player hit owl")
             # Play a sound
@@ -378,7 +367,6 @@ class GameView(arcade.View):
             arcade.play_sound(self.collect_coin_sound)
             # Update the score
             self.score -= 1
->>>>>>> 4f8c8e56b403255f5ed5fe01ce6e60939b9c1742
 
     def on_update(self, delta_time):
         """Update positions and game logic. This function is called 60 times a second.
@@ -417,7 +405,6 @@ class GameView(arcade.View):
                 print(arcade.get_distance_between_sprites(self.player_sprite,owl))
                 owl.attack_player(self.player_sprite, self.physics_engine, delta_time)
 
-<<<<<<< HEAD
         # make cat attack player if it they are close to it
         for cat in self.cat_list:
             if arcade.get_distance_between_sprites(self.player_sprite,cat) < 250:
@@ -425,7 +412,6 @@ class GameView(arcade.View):
                 cat.attack_player(self.player_sprite, self.bullet_list, self.physics_engine, delta_time)
 
 
-=======
         for racoon in self.racoon_list:
             if racoon.is_facing_right:
                 dist_to_end = (racoon.starting_position[0] + racoon.max_delta_x) - racoon.center_x
@@ -449,7 +435,6 @@ class GameView(arcade.View):
                     racoon.is_facing_right = True
                     self.physics_engine.set_friction(racoon, 1.0)
                     continue
->>>>>>> 4f8c8e56b403255f5ed5fe01ce6e60939b9c1742
 
         # Move items in the physics engine
         self.physics_engine.step()
@@ -475,11 +460,8 @@ class GameView(arcade.View):
             self.player_list.draw()
             self.bullet_list.draw()
             self.owl_list.draw()
-<<<<<<< HEAD
             self.cat_list.draw()
-=======
             self.racoon_list.draw()
->>>>>>> 4f8c8e56b403255f5ed5fe01ce6e60939b9c1742
 
         # Draw the light layer to the screen.
         # This fills the entire screen with the lit version
