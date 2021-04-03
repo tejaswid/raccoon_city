@@ -6,7 +6,7 @@ Developers: DemonCyborg, Taterstew, pillitoka, ballipilla
 import os
 import arcade
 
-from screens import InstructionsView
+from game_view import InstructionsView
 
 # Title of the game
 global SCREEN_TITLE

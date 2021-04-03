@@ -102,6 +102,7 @@ class GameView(arcade.View):
         self.racoon_list: arcade.SpriteList = None
         self.racoon_boss_list: arcade.SpriteList = None
         self.game_end_marker_list: arcade.SpriteList = None
+        self.timer_bar_list: arcade.SpriteList = None
 
         # Player sprite
         self.player_sprite: PlayerSprite = None
@@ -153,6 +154,7 @@ class GameView(arcade.View):
 
         # time
         self.game_time_elapsed = 0
+        self.timer_bar = None
 
     def setup(self):
         """Set the game up. Call this function to restart the game.
@@ -248,6 +250,13 @@ class GameView(arcade.View):
         # ------
         self.game_end_marker_list = arcade.tilemap.process_layer(game_map, 'game_end_marker', SPRITE_SCALING_TILES)
 
+        # timer bar
+        self.timer_bar = arcade.SpriteSolidColor(1280, 50, arcade.color.LIGHT_GOLDENROD_YELLOW)
+        self.timer_bar.center_x = 640
+        self.timer_bar.center_y = 64
+        self.timer_bar_list = arcade.SpriteList()
+        self.timer_bar_list.append(self.timer_bar)
+
         # setup the physics engine
         damping = DEFAULT_DAMPING
         gravity = (0, -GRAVITY)
@@ -314,13 +323,18 @@ class GameView(arcade.View):
         
         self.physics_engine.add_collision_handler("player", "racoonboss", post_handler=self.racoon_boss_hit_handler)
 
-        # racoon boss
+        # game end marker
         self.physics_engine.add_sprite_list(self.game_end_marker_list,
                                             collision_type="gameend",
                                             body_type=arcade.PymunkPhysicsEngine.STATIC,
                                             moment=arcade.PymunkPhysicsEngine.MOMENT_INF)
         
         self.physics_engine.add_collision_handler("player", "gameend", post_handler=self.gameend_hit_handler)
+
+        self.physics_engine.add_sprite_list(self.timer_bar_list,
+                                            collision_type="timerbar",
+                                            body_type=arcade.PymunkPhysicsEngine.KINEMATIC,
+                                            moment=arcade.PymunkPhysicsEngine.MOMENT_INF)
 
         # Initialize score to zero
         self.score = 0
@@ -526,6 +540,11 @@ class GameView(arcade.View):
         print(self.racoon_boss_list[0].position)
 
         self.game_time_elapsed += delta_time
+        for tb in self.timer_bar_list:
+            self.physics_engine.set_position(tb, (self.view_left + 640 - (self.game_time_elapsed * 1280/GAME_LENGTH), 64))
+        if self.game_time_elapsed > GAME_LENGTH:
+            self.trigger_gameover()
+
 
     def on_draw(self):
         """Draw everything to screen."""
@@ -546,6 +565,7 @@ class GameView(arcade.View):
             self.cat_list.draw()
             self.racoon_list.draw()
             self.racoon_boss_list.draw()
+            self.timer_bar_list.draw()
             
 
         # Draw the light layer to the screen.
@@ -612,3 +632,110 @@ class GameView(arcade.View):
                                 self.screen_width + self.view_left,
                                 self.view_bottom,
                                 self.screen_height + self.view_bottom)
+
+    def trigger_gameover(self):
+        "Trigger game over"
+        print("game over")
+        game_over_view = GameOverView(self.screen_width, self.screen_height, self.sprite_size)
+        self.window.show_view(game_over_view)
+
+
+class InstructionsView(arcade.View):
+    """Instruction View class."""
+
+    def __init__(self, screen_width, screen_height, sprite_size):
+        """Initialize the class.
+
+        :param screen_width: screen width in pixels
+        :type screen_width: int
+        :param screen_height: screen height in pixels
+        :type screen_height: int
+        :param sprite_size: size of a sprite in pixels
+        :type sprite_size: int
+        """
+        super().__init__()
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+        self.sprite_size = sprite_size
+
+    def on_show(self):
+        """Show once when we run this view."""
+        # texture showing the game over screen
+        self.texture = arcade.load_texture("resources/images/screens/start_screen.png")
+
+        # Reset the viewport, necessary if we have a scrolling game
+        # to reset the viewport back to the start so we can see what we draw.
+        arcade.set_viewport(0, self.screen_width - 1, 0, self.screen_height - 1)
+
+    def on_draw(self):
+        """Draw this view."""
+        arcade.start_render()
+        self.texture.draw_sized(self.screen_width / 2, self.screen_height / 2,
+                                self.screen_width, self.screen_height)
+        #arcade.draw_text("Instructions Screen", self.screen_width / 2, self.screen_height / 2,
+        #                 arcade.color.WHITE, font_size=50, anchor_x="center")
+        #arcade.draw_text("Press any key to start", self.screen_width / 2, self.screen_height / 2-75,
+        #                 arcade.color.WHITE, font_size=20, anchor_x="center")
+        #arcade.draw_text("Use arrow keys to move. Space to turn on the torch.", self.screen_width / 2, self.screen_height / 2-150,
+        #                 arcade.color.WHITE, font_size=20, anchor_x="center")
+
+    def on_key_press(self, key, modifiers):
+        """Handle a key press. 
+
+        When any key is pressed this view switches to the main game.
+        :param key: The key that is pressed
+        :type key: int
+        :param modifiers: Bitwise 'and' of all modifiers (shift, ctrl, num lock)
+        pressed during this event. See :ref:`keyboard_modifiers`.
+        :type modifiers: int
+        """
+        game_view = GameView(self.screen_width, self.screen_height, self.sprite_size)
+        game_view.setup()
+        self.window.show_view(game_view)
+
+
+class GameOverView(arcade.View):
+
+    def __init__(self, screen_width, screen_height, sprite_size):
+        """Initialize the class.
+
+        :param screen_width: screen width in pixels
+        :type screen_width: int
+        :param screen_height: screen height in pixels
+        :type screen_height: int
+        :param sprite_size: size of a sprite in pixels
+        :type sprite_size: int
+        """
+        super().__init__()
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+        self.sprite_size = sprite_size
+        
+        # texture showing the game over screen
+        self.texture = arcade.load_texture("resources/images/screens/game_over_screen.png")
+
+        # Reset the viewport, necessary if we have a scrolling game and we need
+        # to reset the viewport back to the start so we can see what we draw.
+        arcade.set_viewport(0, self.screen_width - 1, 0, self.screen_height - 1)
+
+    def on_draw(self):
+        """ Draw this view """
+        arcade.start_render()
+        self.texture.draw_sized(self.screen_width / 2, self.screen_height / 2,
+                                self.screen_width, self.screen_height)
+
+    def on_key_press(self, key, modifiers):
+        """Handle a key press. 
+
+        When any key is pressed this view switches to the main game.
+        :param key: The key that is pressed
+        :type key: int
+        :param modifiers: Bitwise 'and' of all modifiers (shift, ctrl, num lock)
+        pressed during this event. See :ref:`keyboard_modifiers`.
+        :type modifiers: int
+        """
+        if key == arcade.key.R:
+            game_view = GameView(self.screen_width, self.screen_height, self.sprite_size)
+            game_view.setup()
+            self.window.show_view(game_view)
+    
