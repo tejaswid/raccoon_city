@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="6" tilewidth="128" tileheight="128" infinite="0" nextlayerid="9" nextobjectid="2">
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="100" height="6" tilewidth="128" tileheight="128" infinite="0" nextlayerid="11" nextobjectid="4">
  <tileset firstgid="1" name="stage" tilewidth="190" tileheight="128" tilecount="6" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
@@ -59,13 +59,22 @@
    <image width="128" height="128" source="../images/tiles/sky/sky.png"/>
   </tile>
  </tileset>
- <tileset firstgid="12" name="obstacles" tilewidth="100" tileheight="50" tilecount="1" columns="0">
+ <tileset firstgid="12" name="racoon" tilewidth="70" tileheight="87" tilecount="4" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
-  <tile id="0">
-   <image width="100" height="50" source="../images/tiles/obstacles/brick.png"/>
+  <tile id="1">
+   <image width="70" height="87" source="../images/racoon/racoon_0.png"/>
+  </tile>
+  <tile id="2">
+   <image width="70" height="87" source="../images/racoon/racoon_1.png"/>
+  </tile>
+  <tile id="3">
+   <image width="70" height="87" source="../images/racoon/racoon_2.png"/>
+  </tile>
+  <tile id="4">
+   <image width="70" height="87" source="../images/racoon/racoon_3.png"/>
   </tile>
  </tileset>
- <tileset firstgid="13" source="owls.tsx"/>
+ <tileset firstgid="17" source="owls.tsx"/>
  <layer id="5" name="sky" width="100" height="6">
   <data encoding="base64" compression="zlib">
    eJzjZmBg4EbCnGh8dExInlg1pKijtn5K7aWWGbjMo8RsUvSSopYLiqlpNq3cik89NdI3PdIDIfNxxQe18x4p6qgRn7QOx1E8ikfxKKYXBgCbgRmR
@@ -81,14 +90,19 @@
    eJztwTEBAAAAwqD1T20JT6AAAHgaCWAAAQ==
   </data>
  </layer>
+ <layer id="10" name="racoon" width="100" height="6">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAqoA3gJ8EfBKBgpAABXyAAb
+  </data>
+ </layer>
  <layer id="8" name="owls" width="100" height="6">
   <data encoding="base64" compression="zlib">
-   eJxjYMAP+AjIj4JRMApGwSgYBaNgFIwCVAAAiuAADw==
+   eJxjYMAPhAjIj4JRMApGwSgYBaNgFIwCVAAAr+AAEw==
   </data>
  </layer>
  <layer id="3" name="items" width="100" height="6">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjILhBzgG2gFIAJ9b6OlOdLsGUxiBACH3DCb3YnMLLdxHrJmDKWxGAQQAAArPAFk=
+   eJxjYBgFo2AUjILhBzgG2gFQQMgd9HQnul2DJYxgYDCFFSGAzS20cB+xZg6msBkFEAAACu8AWQ==
   </data>
  </layer>
  <layer id="1" name="stage" width="100" height="6">
@@ -96,13 +110,5 @@
    eJztkUsOwCAIRPET7n9k7aYxRHCobeqCl7BiHAYhCoJAg/8OENwwnX+P0iv3qi947Pp8jece407IXmWhQf7o0qShkPkyZxYeCcjuzen10nyY7OzWTrKv+az6lm42c/cNkt2b84mXpmktWgEw
   </data>
  </layer>
- <objectgroup id="6" name="obstacles">
-  <object id="1" gid="12" x="4400" y="640" width="100" height="50">
-   <properties>
-    <property name="boundary_left" type="float" value="4400"/>
-    <property name="boundary_right" type="float" value="4800"/>
-    <property name="change_x" type="float" value="0.19999999999999996"/>
-   </properties>
-  </object>
- </objectgroup>
+ <objectgroup id="6" name="obstacles"/>
 </map>

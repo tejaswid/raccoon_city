@@ -4,6 +4,7 @@ This script defines the class for the main game.
 Developers: DemonCyborg, Taterstew, pillitoka, ballipilla
 """
 
+from math import dist
 import os
 import arcade
 from arcade.experimental.lights import Light, LightLayer
@@ -11,6 +12,7 @@ from arcade.experimental.lights import Light, LightLayer
 from player_sprite import PlayerSprite
 from owl_sprite import OwlSprite
 from racoon_boss_sprite import RacoonBossSprite
+from racoon_sprite import RacoonSprite
 
 # Scale sprites up or down
 SPRITE_SCALING_PLAYER = 1.0
@@ -45,6 +47,9 @@ PLAYER_MOVE_FORCE_IN_AIR = 900
 # Strength of a jump
 PLAYER_JUMP_IMPULSE = 1800
 PLAYER_DOUBLEJUMP_IMPULSE_SCALING = 0.6 
+
+# Keep racoon from going too fast
+RACOON_MAX_HORIZONTAL_SPEED = 300
 
 # --- Viewport constants
 # How many pixels to keep as a minimum margin between the character
@@ -83,8 +88,9 @@ class GameView(arcade.View):
         self.bullet_list: arcade.SpriteList = None
         self.items_list: arcade.SpriteList = None
         self.bkg_list: arcade.SpriteList = None
-        self.owl_dummy_list: arcade.SpriteList = None
+        
         self.owl_list: arcade.SpriteList = None
+        self.racoon_list: arcade.SpriteList = None
 
         # Player sprite
         self.player_sprite: PlayerSprite = None
@@ -165,13 +171,20 @@ class GameView(arcade.View):
         # Read in the map layers to specific lists
         self.stage_list = arcade.tilemap.process_layer(game_map, 'stage', SPRITE_SCALING_TILES)
         self.items_list = arcade.tilemap.process_layer(game_map, 'items', SPRITE_SCALING_TILES)
-        self.owl_dummy_list = arcade.tilemap.process_layer(game_map, 'owls', SPRITE_SCALING_TILES)
-
+        
+        owl_dummy_list = arcade.tilemap.process_layer(game_map, 'owls', SPRITE_SCALING_TILES)
         self.owl_list = arcade.SpriteList()
-        for owl in self.owl_dummy_list:
-            realOwl = OwlSprite(scale=SPRITE_SCALING_PLAYER)
-            realOwl.position = owl.position
-            self.owl_list.append(realOwl)
+        for owl in owl_dummy_list:
+            real_owl = OwlSprite(scale=SPRITE_SCALING_PLAYER)
+            real_owl.position = owl.position
+            self.owl_list.append(real_owl)
+
+        racoon_dummy_list = arcade.tilemap.process_layer(game_map, 'racoon', SPRITE_SCALING_TILES)
+        self.racoon_list = arcade.SpriteList()
+        for racoon in racoon_dummy_list:
+            real_racoon = RacoonSprite(SPRITE_SCALING_PLAYER, racoon.position)
+            real_racoon.position = racoon.position
+            self.racoon_list.append(real_racoon)
 
         # --------
         # Player
@@ -230,11 +243,19 @@ class GameView(arcade.View):
                                             collision_type="owl",
                                             body_type=arcade.PymunkPhysicsEngine.KINEMATIC)
 
+        self.physics_engine.add_sprite_list(self.racoon_list,
+                                            collision_type="racoon",
+                                            body_type=arcade.PymunkPhysicsEngine.DYNAMIC,
+                                            moment=arcade.PymunkPhysicsEngine.MOMENT_INF)
+
+
         self.physics_engine.add_collision_handler("player", "owl", post_handler=self.owl_hit_handler)
+        self.physics_engine.add_collision_handler("player", "racoon", post_handler=self.racoon_hit_handler)
+
         # Initialize score to zero
         self.score = 0
 
-        # Play a game start sound - helps load sounds faster
+        # Play the soundtrack
         self.current_player = self.soundtrack.play(SOUNDTRACK_VOLUME, loop=True)
 
         # Reset the viewport
@@ -298,6 +319,15 @@ class GameView(arcade.View):
 
     def owl_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
             """Handle collision between player and owl"""
+            print("player hit owl")
+            # Play a sound
+            arcade.play_sound(self.collect_coin_sound)
+            # Update the score
+            self.score -= 1
+
+    def racoon_hit_handler(self, player_sprite, racoon_sprite, _arbiter, _space, _data):
+            """Handle collision between player and racoon"""
+            print("player hit racoon")
             # Play a sound
             arcade.play_sound(self.collect_coin_sound)
             # Update the score
@@ -341,6 +371,29 @@ class GameView(arcade.View):
                 print(arcade.get_distance_between_sprites(self.player_sprite,owl))
                 owl.attack_player(self.player_sprite, self.physics_engine, delta_time)
 
+        for racoon in self.racoon_list:
+            if racoon.is_facing_right:
+                dist_to_end = (racoon.starting_position[0] + racoon.max_delta_x) - racoon.center_x
+                force_val = dist_to_end / (2 * racoon.max_delta_x) * 500 + 4000
+                if dist_to_end >= 0:
+                    force = (force_val, 0)
+                    self.physics_engine.apply_force(racoon, force)
+                    self.physics_engine.set_friction(racoon, 0)
+                else:
+                    racoon.is_facing_right = False
+                    self.physics_engine.set_friction(racoon, 1.0)
+                    continue
+            else:
+                dist_to_start = racoon.center_x - (racoon.starting_position[0] - racoon.max_delta_x)
+                force_val = dist_to_start / (2 * racoon.max_delta_x) * 500 + 4000
+                if dist_to_start >= 0:
+                    force = (-force_val, 0)
+                    self.physics_engine.apply_force(racoon, force)
+                    self.physics_engine.set_friction(racoon, 0)
+                else:
+                    racoon.is_facing_right = True
+                    self.physics_engine.set_friction(racoon, 1.0)
+                    continue
 
         # Move items in the physics engine
         self.physics_engine.step()
@@ -366,6 +419,7 @@ class GameView(arcade.View):
             self.player_list.draw()
             self.bullet_list.draw()
             self.owl_list.draw()
+            self.racoon_list.draw()
 
         # Draw the light layer to the screen.
         # This fills the entire screen with the lit version
