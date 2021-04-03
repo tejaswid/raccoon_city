@@ -363,7 +363,7 @@ class GameView(arcade.View):
 
     def owl_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
         """Handle collision between player and owl"""
-        print("player hit cat")
+        print("player hit owl")
         # Play a sound
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
@@ -427,13 +427,13 @@ class GameView(arcade.View):
         # make owl attack player if it they are close to it
         for owl in self.owl_list:
             if arcade.get_distance_between_sprites(self.player_sprite,owl) < 500:
-                print(arcade.get_distance_between_sprites(self.player_sprite,owl))
+                #print(arcade.get_distance_between_sprites(self.player_sprite,owl))
                 owl.attack_player(self.player_sprite, self.physics_engine, delta_time)
 
         # make cat attack player if it they are close to it
         for cat in self.cat_list:
             if arcade.get_distance_between_sprites(self.player_sprite,cat) < 250:
-                print(arcade.get_distance_between_sprites(self.player_sprite,cat))
+                #print(arcade.get_distance_between_sprites(self.player_sprite,cat))
                 cat.attack_player(self.player_sprite, self.bullet_list, self.physics_engine, delta_time)
 
         # wandering racoon code
@@ -474,8 +474,9 @@ class GameView(arcade.View):
         for racoon_boss in self.racoon_boss_list:
             if racoon_boss.center_x < 2000:
                 self.physics_engine.apply_force(racoon_boss, force)
-            if racoon_boss.center_x > 2000 and racoon_boss.center_x < 10000:
-                racoon_boss.remove_from_sprite_lists()
+            if racoon_boss.center_x > 2000 and racoon_boss.center_x < 2500:
+                racoon_boss.position = (17920,racoon_boss.center_y)
+                #self.physics_engine.set_position(racoon_boss,(17920,racoon_boss.center_y))
 
         # Move items in the physics engine
         self.physics_engine.step()
@@ -486,6 +487,7 @@ class GameView(arcade.View):
         # Trigger game over using these commands as appropriate
         # view = GameOverView()
         # self.window.show_view(view)
+        print(self.player_list[0].position)
 
     def on_draw(self):
         """Draw everything to screen."""
