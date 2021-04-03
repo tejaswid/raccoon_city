@@ -7,6 +7,11 @@
   </tile>
   <tile id="1">
    <image width="128" height="128" source="../images/tiles/stage/stage_1.png"/>
+   <objectgroup draworder="index" id="3">
+    <object id="5" x="0" y="0">
+     <polygon points="0,0 128,0 128,128 0,128"/>
+    </object>
+   </objectgroup>
   </tile>
   <tile id="2">
    <image width="128" height="128" source="../images/tiles/stage/stage_2.png"/>
