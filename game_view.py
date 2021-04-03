@@ -82,10 +82,11 @@ class GameView(arcade.View):
         self.bullet_list: arcade.SpriteList = None
         self.items_list: arcade.SpriteList = None
         self.bkg_list: arcade.SpriteList = None
+        self.owl_list: arcade.SpriteList = None
 
         # Player sprite
-        # self.player_sprite: PlayerSprite = None
-        self.player_sprite: RacoonBossSprite = None
+        self.player_sprite: PlayerSprite = None
+        #self.player_sprite: RacoonBossSprite = None
 
         # Track the current state of what key is pressed
         self.left_pressed: bool = False
@@ -162,13 +163,14 @@ class GameView(arcade.View):
         # Read in the map layers to specific lists
         self.stage_list = arcade.tilemap.process_layer(game_map, 'stage', SPRITE_SCALING_TILES)
         self.items_list = arcade.tilemap.process_layer(game_map, 'items', SPRITE_SCALING_TILES)
+        self.owl_list = arcade.tilemap.process_layer(game_map, 'owls', SPRITE_SCALING_TILES)
 
         # --------
         # Player
         # --------
         # Create player sprite
-        # self.player_sprite = PlayerSprite(scale=SPRITE_SCALING_PLAYER)
-        self.player_sprite = RacoonBossSprite(scale=SPRITE_SCALING_PLAYER)
+        self.player_sprite = PlayerSprite(scale=SPRITE_SCALING_PLAYER)
+        #self.player_sprite = RacoonBossSprite(scale=SPRITE_SCALING_PLAYER)
         
         # Set player location at the centre of the specified grid
         grid_x = 1
@@ -215,6 +217,11 @@ class GameView(arcade.View):
                                             collision_type="item")  
         self.physics_engine.add_collision_handler("player", "item", post_handler=self.item_hit_handler)
 
+        # Owls
+        self.physics_engine.add_sprite_list(self.owl_list,
+                                            collision_type="owl",
+                                            body_type=arcade.PymunkPhysicsEngine.KINEMATIC)
+        self.physics_engine.add_collision_handler("player", "owl", post_handler=self.owl_hit_handler)
         # Initialize score to zero
         self.score = 0
 
@@ -280,6 +287,13 @@ class GameView(arcade.View):
             # Update the score
             self.score += 1
 
+    def owl_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
+            """Handle collision between player and owl"""
+            # Play a sound
+            arcade.play_sound(self.collect_coin_sound)
+            # Update the score
+            self.score -= 1
+
     def on_update(self, delta_time):
         """Update positions and game logic. This function is called 60 times a second.
 
@@ -311,6 +325,12 @@ class GameView(arcade.View):
             # Player's feet are not moving. Therefore up the friction so we stop.
             self.physics_engine.set_friction(self.player_sprite, 1.0)
 
+        # make owl attack player if it they are close to it
+        for owl in self.owl_list:
+            if arcade.get_distance_between_sprites(self.player_sprite,owl) < 1000:
+                owl.attack_player(self,self.player_sprite)
+
+
         # Move items in the physics engine
         self.physics_engine.step()
 
@@ -334,6 +354,7 @@ class GameView(arcade.View):
             self.items_list.draw()
             self.player_list.draw()
             self.bullet_list.draw()
+            self.owl_list.draw()
 
         # Draw the light layer to the screen.
         # This fills the entire screen with the lit version
@@ -342,8 +363,8 @@ class GameView(arcade.View):
 
         # Draw the score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
-        arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
-                         arcade.csscolor.WHITE, 18)
+        #arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
+        #                 arcade.csscolor.WHITE, 18)
 
         # --- Manage Scrolling ---
 

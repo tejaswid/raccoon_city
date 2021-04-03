@@ -46,55 +46,9 @@ class OwlSprite(arcade.Sprite):
         # Index of our current texture
         self.cur_texture = 0
 
-        # How far have we traveled horizontally since changing the texture
-        self.x_odometer = 0
-
-    def pymunk_moved(self, physics_engine, dx, dy, d_angle):
-        """Handle being moved by the pymunk engine.
-
-        :param physics_engine: The physics engine
-        :type physics_engine: arcade.PymunkPhysicsEngine
-        :param dx: amount moved along x direction
-        :type dx: float
-        :param dy: amount moved along y direction
-        :type dy: float
-        :param d_angle: angle moved
-        :type d_angle: float
-        """
-        # Figure out if we need to face left or right
-        if dx < -DEAD_ZONE and self.character_face_direction == RIGHT_FACING:
-            self.character_face_direction = LEFT_FACING
-        elif dx > DEAD_ZONE and self.character_face_direction == LEFT_FACING:
-            self.character_face_direction = RIGHT_FACING
-
-        # Are we on the ground?
-        is_on_ground = physics_engine.is_on_ground(self)
-
-        # Add to the odometer how far we've moved
-        self.x_odometer += dx
-
-        # Jumping animation
-        if not is_on_ground:
-            if dy > DEAD_ZONE:
-                self.texture = self.jump_texture_pair[self.character_face_direction]
-                return
-            elif dy < -DEAD_ZONE:
-                self.texture = self.fall_texture_pair[self.character_face_direction]
-                return
-
-        # Idle animation
-        if abs(dx) <= DEAD_ZONE:
-            self.texture = self.idle_texture_pair[self.character_face_direction]
-            return
-
-        # Have we moved far enough to change the texture?
-        if abs(self.x_odometer) > DISTANCE_TO_CHANGE_TEXTURE:
-
-            # Reset the odometer
-            self.x_odometer = 0
-
-            # Advance the walking animation
-            self.cur_texture += 1
-            if self.cur_texture >= self.num_walk_textures:
-                self.cur_texture = 0
-            self.texture = self.walk_textures[self.cur_texture][self.character_face_direction]
+        # Is the sprite cloe to the player?
+        self.is_close_to_player = False
+    
+    def attack_player(self, player):
+        print("i am attacking player at" player.position)
+        
