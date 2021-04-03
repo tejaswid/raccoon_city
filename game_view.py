@@ -353,20 +353,20 @@ class GameView(arcade.View):
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score -= 1
-            """Handle collision between player and owl"""
-            print("player hit owl")
-            # Play a sound
-            arcade.play_sound(self.collect_coin_sound)
-            # Update the score
-            self.score -= 1
+        """Handle collision between player and owl"""
+        print("player hit owl")
+        # Play a sound
+        arcade.play_sound(self.collect_coin_sound)
+        # Update the score
+        self.score -= 1
 
     def racoon_hit_handler(self, player_sprite, racoon_sprite, _arbiter, _space, _data):
-            """Handle collision between player and racoon"""
-            print("player hit racoon")
-            # Play a sound
-            arcade.play_sound(self.collect_coin_sound)
-            # Update the score
-            self.score -= 1
+        """Handle collision between player and racoon"""
+        print("player hit racoon")
+        # Play a sound
+        arcade.play_sound(self.collect_coin_sound)
+        # Update the score
+        self.score -= 1
 
     def on_update(self, delta_time):
         """Update positions and game logic. This function is called 60 times a second.
