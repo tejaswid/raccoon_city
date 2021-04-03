@@ -72,7 +72,7 @@ AMBIENT_COLOR = (200, 200, 200)
 SOUNDTRACK_VOLUME = 0.6
 
 # --- Game times
-GAME_LENGTH = 30
+GAME_LENGTH = 1000
 
 class GameView(arcade.View):
     """Main Game class."""
@@ -462,8 +462,11 @@ class GameView(arcade.View):
     def gameend_hit_handler(self, player_sprite, gameend_sprite, _arbiter, _space, _data):
         """Handle collision between player and game end marker"""
         print("player hit game end")
-        # Play a sound
-        # transition to next stage here
+        game_win_view = GameWinView(self.screen_width, self.screen_height, self.sprite_size)
+        self.current_player.pause()
+        arcade.play_sound(self.heckle_sound)
+        self.window.show_view(game_win_view)
+        
 
     def trigger_slowdown(self):
         self.player_movement_speed = PLAYER_MOVE_FORCE_ON_GROUND * 0.2
@@ -781,3 +784,48 @@ class GameOverView(arcade.View):
             game_view.setup()
             self.window.show_view(game_view)
     
+
+class GameWinView(arcade.View):
+
+    def __init__(self, screen_width, screen_height, sprite_size):
+        """Initialize the class.
+
+        :param screen_width: screen width in pixels
+        :type screen_width: int
+        :param screen_height: screen height in pixels
+        :type screen_height: int
+        :param sprite_size: size of a sprite in pixels
+        :type sprite_size: int
+        """
+        super().__init__()
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+        self.sprite_size = sprite_size
+        
+        # texture showing the game over screen
+        self.texture = arcade.load_texture("resources/images/screens/game_win_screen.png")
+
+        # Reset the viewport, necessary if we have a scrolling game and we need
+        # to reset the viewport back to the start so we can see what we draw.
+        arcade.set_viewport(0, self.screen_width - 1, 0, self.screen_height - 1)
+
+    def on_draw(self):
+        """ Draw this view """
+        arcade.start_render()
+        self.texture.draw_sized(self.screen_width / 2, self.screen_height / 2,
+                                self.screen_width, self.screen_height)
+
+    def on_key_press(self, key, modifiers):
+        """Handle a key press. 
+
+        When any key is pressed this view switches to the main game.
+        :param key: The key that is pressed
+        :type key: int
+        :param modifiers: Bitwise 'and' of all modifiers (shift, ctrl, num lock)
+        pressed during this event. See :ref:`keyboard_modifiers`.
+        :type modifiers: int
+        """
+        if key == arcade.key.R:
+            game_view = GameView(self.screen_width, self.screen_height, self.sprite_size)
+            game_view.setup()
+            self.window.show_view(game_view)
