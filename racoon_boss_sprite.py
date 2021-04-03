@@ -1,5 +1,5 @@
 """
-This script defines the class for the player sprite.
+This script defines the class for the racoon boss sprite.
 
 Developers: DemonCyborg, Taterstew, pillitoka, ballipilla
 """
@@ -18,8 +18,9 @@ LEFT_FACING = 1
 # How many pixels to move before we change the texture in the walking animation
 DISTANCE_TO_CHANGE_TEXTURE = 20
 
-class PlayerSprite(arcade.Sprite):
-    """Player Sprite."""
+class RacoonBossSprite(arcade.Sprite):
+    """Class for Racoon boss."""
+
     def __init__(self, scale):
         """Initialize the class."""
         # Let parent initialize
@@ -29,25 +30,23 @@ class PlayerSprite(arcade.Sprite):
         self.scale = scale
 
         # Load textures for idle standing
-        resource_path = "resources/images/cop"
-        self.idle_texture_pair = arcade.load_texture_pair(os.path.join(resource_path, "cop_idle.png"))
-        self.jump_texture_pair = arcade.load_texture_pair(os.path.join(resource_path, "cop_idle.png"))
-        self.fall_texture_pair = arcade.load_texture_pair(os.path.join(resource_path, "cop_idle.png"))
-
-        self.collision_shape = arcade.load_texture(os.path.join(resource_path, "cop_collision.png"))
+        resource_path = "resources/images/racoon_boss"
+        self.idle_texture_pair = arcade.load_texture_pair(os.path.join(resource_path, "racoonr_idle.png"))
+        self.jump_texture_pair = arcade.load_texture_pair(os.path.join(resource_path, "racoonr_idle.png"))
+        self.fall_texture_pair = arcade.load_texture_pair(os.path.join(resource_path, "racoonr_idle.png"))
 
         # Load textures for walking
         self.walk_textures = []
-        self.num_walk_textures = 10
+        self.num_walk_textures = 8
         for i in range(self.num_walk_textures):
-            texture = arcade.load_texture_pair(os.path.join(resource_path, f"cop_{i}.png"))
+            texture = arcade.load_texture_pair(os.path.join(resource_path, f"racoonr_{i}.png"))
             self.walk_textures.append(texture)
 
         # Set the initial texture
         self.texture = self.idle_texture_pair[0]
 
-        # Hit box will be set based on the custom ellipse shape.
-        self.hit_box = self.collision_shape.hit_box_points
+        # Hit box will be set based on the first image used.
+        self.hit_box = self.texture.hit_box_points
 
         # Default to face-right
         self.character_face_direction = RIGHT_FACING

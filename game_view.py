@@ -9,6 +9,7 @@ import arcade
 from arcade.experimental.lights import Light, LightLayer
 
 from player_sprite import PlayerSprite
+from racoon_boss_sprite import RacoonBossSprite
 
 # Scale sprites up or down
 SPRITE_SCALING_PLAYER = 1.0
@@ -60,6 +61,8 @@ VIEWPORT_BUFFER = 10    # just a small positive value
 # This is the color used for 'ambient light'.
 AMBIENT_COLOR = (200, 200, 200)
 
+# --- Music
+SOUNDTRACK_VOLUME = 0.6
 
 class GameView(arcade.View):
     """Main Game class."""
@@ -81,7 +84,8 @@ class GameView(arcade.View):
         self.bkg_list: arcade.SpriteList = None
 
         # Player sprite
-        self.player_sprite: PlayerSprite = None
+        # self.player_sprite: PlayerSprite = None
+        self.player_sprite: RacoonBossSprite = None
 
         # Track the current state of what key is pressed
         self.left_pressed: bool = False
@@ -163,12 +167,15 @@ class GameView(arcade.View):
         # Player
         # --------
         # Create player sprite
-        self.player_sprite = PlayerSprite(scale=SPRITE_SCALING_PLAYER)
+        # self.player_sprite = PlayerSprite(scale=SPRITE_SCALING_PLAYER)
+        self.player_sprite = RacoonBossSprite(scale=SPRITE_SCALING_PLAYER)
+        
         # Set player location at the centre of the specified grid
         grid_x = 1
         grid_y = 1
         self.player_sprite.center_x = self.sprite_size * grid_x + self.sprite_size / 2
         self.player_sprite.center_y = self.sprite_size * grid_y + self.sprite_size / 2
+
         # Add to player sprite list
         self.player_list = arcade.SpriteList()
         self.player_list.append(self.player_sprite)
@@ -212,7 +219,7 @@ class GameView(arcade.View):
         self.score = 0
 
         # Play a game start sound - helps load sounds faster
-        arcade.play_sound(self.soundtrack)
+        self.current_player = self.soundtrack.play(SOUNDTRACK_VOLUME, loop=True)
 
         # Reset the viewport
         arcade.set_viewport(0, self.screen_width - 1, 0, self.screen_height - 1)
