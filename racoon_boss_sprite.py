@@ -35,6 +35,8 @@ class RacoonBossSprite(arcade.Sprite):
         self.jump_texture_pair = arcade.load_texture_pair(os.path.join(resource_path, "racoonr_idle.png"))
         self.fall_texture_pair = arcade.load_texture_pair(os.path.join(resource_path, "racoonr_idle.png"))
 
+        self.collision_shape = arcade.load_texture(os.path.join(resource_path, "racoon_collision.png"))
+
         # Load textures for walking
         self.walk_textures = []
         self.num_walk_textures = 8
@@ -46,7 +48,7 @@ class RacoonBossSprite(arcade.Sprite):
         self.texture = self.idle_texture_pair[0]
 
         # Hit box will be set based on the first image used.
-        self.hit_box = self.texture.hit_box_points
+        self.hit_box = self.collision_shape.hit_box_points
 
         # Default to face-right
         self.character_face_direction = RIGHT_FACING
