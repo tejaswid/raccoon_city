@@ -9,7 +9,7 @@ import arcade
 
 # --- Animation constants.
 # Close enough to not-moving to have the animation go to idle.
-DEAD_ZONE = 0.05
+DEAD_ZONE = 0#0.05
 
 # Constants used to track if the player is facing left or right
 RIGHT_FACING = 0
@@ -47,8 +47,9 @@ class PlayerSprite(arcade.Sprite):
         self.texture = self.idle_texture_pair[0]
 
         # Hit box will be set based on the custom ellipse shape.
-        self.hit_box = self.collision_shape.hit_box_points
-
+        #self.hit_box = self.collision_shape.hit_box_points
+        self.hit_box = [[-44.0, -56.0], [-11.0, -89.0], [0, -90], [10.0, -89.0], [43.0, -56.0], [43.0, 61.0], [10.0, 94.0], [-11.0, 94.0], [-44.0, 61.0]]
+        print(self.get_points())
         # Default to face-right
         self.character_face_direction = RIGHT_FACING
 
@@ -84,6 +85,7 @@ class PlayerSprite(arcade.Sprite):
 
         # Jumping animation
         if not is_on_ground:
+            self.cur_texture = 0
             if dy > DEAD_ZONE:
                 self.texture = self.jump_texture_pair[self.character_face_direction]
                 return

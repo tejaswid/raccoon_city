@@ -9,6 +9,7 @@ import arcade
 from arcade.experimental.lights import Light, LightLayer
 
 from player_sprite import PlayerSprite
+from owl_sprite import OwlSprite
 from racoon_boss_sprite import RacoonBossSprite
 
 # Scale sprites up or down
@@ -82,6 +83,7 @@ class GameView(arcade.View):
         self.bullet_list: arcade.SpriteList = None
         self.items_list: arcade.SpriteList = None
         self.bkg_list: arcade.SpriteList = None
+        self.owl_dummy_list: arcade.SpriteList = None
         self.owl_list: arcade.SpriteList = None
 
         # Player sprite
@@ -163,7 +165,13 @@ class GameView(arcade.View):
         # Read in the map layers to specific lists
         self.stage_list = arcade.tilemap.process_layer(game_map, 'stage', SPRITE_SCALING_TILES)
         self.items_list = arcade.tilemap.process_layer(game_map, 'items', SPRITE_SCALING_TILES)
-        self.owl_list = arcade.tilemap.process_layer(game_map, 'owls', SPRITE_SCALING_TILES)
+        self.owl_dummy_list = arcade.tilemap.process_layer(game_map, 'owls', SPRITE_SCALING_TILES)
+
+        self.owl_list = arcade.SpriteList()
+        for owl in self.owl_dummy_list:
+            realOwl = OwlSprite(scale=SPRITE_SCALING_PLAYER)
+            realOwl.position = owl.position
+            self.owl_list.append(realOwl)
 
         # --------
         # Player
@@ -221,6 +229,7 @@ class GameView(arcade.View):
         self.physics_engine.add_sprite_list(self.owl_list,
                                             collision_type="owl",
                                             body_type=arcade.PymunkPhysicsEngine.KINEMATIC)
+
         self.physics_engine.add_collision_handler("player", "owl", post_handler=self.owl_hit_handler)
         # Initialize score to zero
         self.score = 0
@@ -327,8 +336,10 @@ class GameView(arcade.View):
 
         # make owl attack player if it they are close to it
         for owl in self.owl_list:
-            if arcade.get_distance_between_sprites(self.player_sprite,owl) < 1000:
-                owl.attack_player(self,self.player_sprite)
+            
+            if arcade.get_distance_between_sprites(self.player_sprite,owl) < 500:
+                print(arcade.get_distance_between_sprites(self.player_sprite,owl))
+                owl.attack_player(self.player_sprite, self.physics_engine, delta_time)
 
 
         # Move items in the physics engine
