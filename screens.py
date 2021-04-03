@@ -36,12 +36,12 @@ class InstructionsView(arcade.View):
     def on_draw(self):
         """Draw this view."""
         arcade.start_render()
-        arcade.draw_text("Instructions Screen", self.screen_width / 2, self.screen_height / 2,
-                         arcade.color.WHITE, font_size=50, anchor_x="center")
-        arcade.draw_text("Press any key to start", self.screen_width / 2, self.screen_height / 2-75,
-                         arcade.color.WHITE, font_size=20, anchor_x="center")
-        arcade.draw_text("Use arrow keys to move. Space to turn on the torch.", self.screen_width / 2, self.screen_height / 2-150,
-                         arcade.color.WHITE, font_size=20, anchor_x="center")
+        #arcade.draw_text("Instructions Screen", self.screen_width / 2, self.screen_height / 2,
+        #                 arcade.color.WHITE, font_size=50, anchor_x="center")
+        #arcade.draw_text("Press any key to start", self.screen_width / 2, self.screen_height / 2-75,
+        #                 arcade.color.WHITE, font_size=20, anchor_x="center")
+        #arcade.draw_text("Use arrow keys to move. Space to turn on the torch.", self.screen_width / 2, self.screen_height / 2-150,
+        #                 arcade.color.WHITE, font_size=20, anchor_x="center")
 
     def on_key_press(self, key, modifiers):
         """Handle a key press. 
