@@ -52,6 +52,8 @@ class OwlSprite(arcade.Sprite):
         # Has the owl started attacking?
         self.is_attacking = False
         self.attack_steps = 100
+
+        self.owl_flying_sound: arcade.Sound = arcade.load_sound("resources/sounds/owlflying.wav")
     
     def attack_player(self, player, physics_engine, delta_time):
 
@@ -74,6 +76,7 @@ class OwlSprite(arcade.Sprite):
             self.change_y = 0
             velocity = (self.change_x*1/delta_time, self.change_y*1/delta_time)
             physics_engine.set_velocity(self,velocity)
+            #arcade.play_sound(self.owl_flying_sound)
             
 
         

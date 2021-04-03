@@ -136,6 +136,10 @@ class GameView(arcade.View):
         self.game_start_sound: arcade.Sound = arcade.load_sound("resources/sounds/secret2.wav")
         self.soundtrack: arcade.Sound = arcade.load_sound("resources/sounds/soundtrack.wav")
 
+        self.eat_donut_sound: arcade.Sound = arcade.load_sound("resources/sounds/eatdonut.wav")
+        self.heckle_sound: arcade.Sound = arcade.load_sound("resources/sounds/racoon.wav")
+        self.bubble_gum_sound: arcade.Sound = arcade.load_sound("resources/sounds/stepinbubblegum.wav")
+
         # Score
         self.score: int = 0
 
@@ -397,7 +401,7 @@ class GameView(arcade.View):
         """Handle collision between player and item"""
         item_sprite.remove_from_sprite_lists()
         # Play a sound
-        arcade.play_sound(self.collect_coin_sound)
+        arcade.play_sound(self.eat_donut_sound)
         # Update the score
         self.score += 1
 
@@ -405,7 +409,7 @@ class GameView(arcade.View):
         """Handle collision between player and owl"""
         print("player hit owl")
         # Play a sound
-        arcade.play_sound(self.collect_coin_sound)
+        #arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score -= 1
 
@@ -413,7 +417,7 @@ class GameView(arcade.View):
         """Handle collision between player and cat"""
         print("player hit cat")
         # Play a sound
-        arcade.play_sound(self.collect_coin_sound)
+        #arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score -= 1
 
@@ -421,7 +425,7 @@ class GameView(arcade.View):
         """Handle collision between player and racoon"""
         print("player hit racoon")
         # Play a sound
-        arcade.play_sound(self.collect_coin_sound)
+        #arcade.play_sound(self.heckle_sound)
         # Update the score
         self.score -= 1
 
@@ -429,7 +433,7 @@ class GameView(arcade.View):
         """Handle collision between player and racoon boss"""
         print("player hit racoon boss")
         # Play a sound
-        arcade.play_sound(self.collect_coin_sound)
+        #arcade.play_sound(self.collect_coin_sound)
         # Update the score
         self.score -= 1
 
@@ -437,7 +441,7 @@ class GameView(arcade.View):
         """Handle collision between player and game end marker"""
         print("player hit game end")
         # Play a sound
-        arcade.play_sound(self.collect_coin_sound)
+        arcade.play_sound(self.heckle_sound)
         # transition to next stage here
 
     def on_update(self, delta_time):
@@ -575,8 +579,8 @@ class GameView(arcade.View):
 
         # Draw the score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
-        arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
-                        arcade.csscolor.WHITE, 18, font_name=['arial'])
+        #arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
+        #               arcade.csscolor.WHITE, 18, font_name=['arial'])
 
         # --- Manage Scrolling ---
 
