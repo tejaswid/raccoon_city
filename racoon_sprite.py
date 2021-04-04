@@ -6,7 +6,6 @@ Developers: DemonCyborg, Taterstew, pillitoka, ballipilla
 
 import os
 import arcade
-from arcade import physics_engines
 
 # --- Animation constants.
 # Close enough to not-moving to have the animation go to idle.
