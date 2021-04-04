@@ -4,7 +4,6 @@ This script defines the class for the main game.
 Developers: DemonCyborg, Taterstew, pillitoka, ballipilla
 """
 
-from math import dist
 import os
 import arcade
 from arcade.experimental.lights import Light, LightLayer
