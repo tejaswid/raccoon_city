@@ -1,5 +1,5 @@
 """
-This is the code for the game ..... developed for pyweek31.
+This is the code for the game Raccoon City developed for pyweek31.
 
 Developers: DemonCyborg, Taterstew, pillitoka, ballipilla
 """
@@ -14,7 +14,7 @@ from game_view import InstructionsView
 
 # Title of the game
 global SCREEN_TITLE
-SCREEN_TITLE = "Racoon"
+SCREEN_TITLE = "Raccoon City"
 
 # How big are our image tiles?
 global SPRITE_IMAGE_SIZE
