@@ -14,7 +14,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.0.2 (394de47547, 2021-03-26)"
-   sodipodi:docname="Start Screen.svg">
+   sodipodi:docname="Start Screen.svg"
+   inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/screens/start_screen.png"
+   inkscape:export-xdpi="64.33725"
+   inkscape:export-ydpi="64.33725">
   <defs
      id="defs2">
     <rect
@@ -32,8 +35,8 @@
     <rect
        x="83.154762"
        y="187.4762"
-       width="326.39993"
-       height="50.357937"
+       width="381.16527"
+       height="136.01356"
        id="rect925" />
     <rect
        x="138.33929"
@@ -670,7 +673,7 @@
      inkscape:cx="1703.1826"
      inkscape:cy="744.02958"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer6"
+     inkscape:current-layer="layer5"
      inkscape:document-rotation="0"
      showgrid="false"
      units="px"
@@ -821,15 +824,12 @@
        xml:space="preserve"
        id="text923"
        style="font-style:normal;font-weight:normal;font-size:42.3333px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect925);fill:#ffffff;fill-opacity:1;stroke:none;"
-       transform="translate(32.37904,-47.365489)"><tspan
-         x="83.154297"
+       transform="translate(-15.584002,-77.873178)"
+       x="176.26819"
+       y="0"><tspan
+         x="95.722464"
          y="224.93161"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:42.3333px;font-family:'Ink Free';-inkscape-font-specification:'Ink Free Bold';fill:#ffffff">RACCOON </tspan></tspan><tspan
-         style="visibility:hidden"
-         x="83.154297"
-         y="275.28903"><tspan
-           dx="0 31.088518 15.792307 28.856098 30.67511"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:42.3333px;font-family:'Ink Free';-inkscape-font-specification:'Ink Free Bold';fill:#ffffff">CITY </tspan></tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:42.3333px;font-family:'Ink Free';-inkscape-font-specification:'Ink Free Bold';text-align:center;text-anchor:middle;fill:#ffffff">RACCOON CITY </tspan></tspan></text>
     <text
        xml:space="preserve"
        id="text1334"

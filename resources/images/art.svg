@@ -13,7 +13,7 @@
    viewBox="0 0 1709.0206 828.62219"
    version="1.1"
    id="svg8"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   inkscape:version="1.0.2 (394de47547, 2021-03-26)"
    sodipodi:docname="art.svg">
   <defs
      id="defs2">
@@ -658,17 +658,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.1767767"
-     inkscape:cx="962.08382"
-     inkscape:cy="1706.4941"
+     inkscape:zoom="0.3535534"
+     inkscape:cx="1059.7989"
+     inkscape:cy="2601.2337"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-height="978"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      showguides="false" />
   <metadata
@@ -2304,7 +2304,8 @@
        id="g1762"
        inkscape:export-filename="C:\Users\Krishna Manaswi D\Documents\Projects\pyweek31\resources\images\backgrounds\skyline.png"
        inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96">
+       inkscape:export-ydpi="96"
+       transform="translate(623.29584,-53.729069)">
       <image
          width="846.66669"
          height="203.2"
@@ -2323,6 +2324,16 @@
          x="-2226.5669"
          y="336.47025" />
     </g>
+    <rect
+       style="fill:#ffe680;stroke-width:0.391927;stroke-dasharray:0.391927, 0.78385499999999997"
+       id="rect1646"
+       width="338.66666"
+       height="13.229167"
+       x="-1602.5929"
+       y="263.80432"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/backgrounds/time_bar.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
   </g>
   <g
      inkscape:groupmode="layer"

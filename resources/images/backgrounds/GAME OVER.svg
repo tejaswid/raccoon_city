@@ -808,7 +808,10 @@
        style="font-style:normal;font-weight:normal;font-size:19.7556px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect2622);display:inline;fill:#ffffff;fill-opacity:1;stroke:none;"
        transform="translate(-9.26664,98.708851)"
        x="291.37216"
-       y="0"><tspan
+       y="0"
+       inkscape:export-filename="/home/dtejaswi/repos/python/pyweek31/resources/images/screens/game_over_screen.png"
+       inkscape:export-xdpi="63.84"
+       inkscape:export-ydpi="63.84"><tspan
          x="180.37616"
          y="204.95564"><tspan
            style="font-size:19.7556px;text-align:center;text-anchor:middle">Press r to replay</tspan></tspan></text>
