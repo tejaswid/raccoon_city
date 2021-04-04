@@ -416,7 +416,7 @@ class GameView(arcade.View):
 
     def owl_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
         """Handle collision between player and owl"""
-        print("player hit owl")
+        # print("player hit owl")
         # Play a sound
         #arcade.play_sound(self.collect_coin_sound)
         # Update the score
@@ -425,7 +425,7 @@ class GameView(arcade.View):
 
     def cat_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
         """Handle collision between player and cat"""
-        print("player hit cat")
+        # print("player hit cat")
         # Play a sound
         #arcade.play_sound(self.collect_coin_sound)
         # Update the score
@@ -434,7 +434,7 @@ class GameView(arcade.View):
 
     def bubblegum_hit_handler(self, player_sprite, owl_sprite, _arbiter, _space, _data):
         """Handle collision between player and bubblegum"""
-        print("player hit bubblegum")
+        # print("player hit bubblegum")
         # Play a sound
         arcade.play_sound(self.collect_coin_sound)
         # Update the score
@@ -443,7 +443,7 @@ class GameView(arcade.View):
 
     def racoon_hit_handler(self, player_sprite, racoon_sprite, _arbiter, _space, _data):
         """Handle collision between player and racoon"""
-        print("player hit racoon")
+        # print("player hit racoon")
         # Play a sound
         #arcade.play_sound(self.heckle_sound)
         # Update the score
@@ -452,7 +452,7 @@ class GameView(arcade.View):
 
     def racoon_boss_hit_handler(self, player_sprite, racoon_boss_sprite, _arbiter, _space, _data):
         """Handle collision between player and racoon boss"""
-        print("player hit racoon boss")
+        # print("player hit racoon boss")
         # Play a sound
         #arcade.play_sound(self.collect_coin_sound)
         # Update the score
@@ -460,7 +460,7 @@ class GameView(arcade.View):
 
     def gameend_hit_handler(self, player_sprite, gameend_sprite, _arbiter, _space, _data):
         """Handle collision between player and game end marker"""
-        print("player hit game end")
+        # print("player hit game end")
         game_win_view = GameWinView(self.screen_width, self.screen_height, self.sprite_size)
         self.current_player.pause()
         arcade.play_sound(self.heckle_sound)
@@ -569,7 +569,7 @@ class GameView(arcade.View):
         # Trigger game over using these commands as appropriate
         # view = GameOverView()
         # self.window.show_view(view)
-        print(self.racoon_boss_list[0].position)
+        # print(self.racoon_boss_list[0].position)
 
         self.game_time_elapsed += delta_time
         for tb in self.timer_bar_list:
@@ -677,7 +677,7 @@ class GameView(arcade.View):
 
     def trigger_gameover(self):
         "Trigger game over"
-        print("game over")
+        # print("game over")
         game_over_view = GameOverView(self.screen_width, self.screen_height, self.sprite_size)
         self.current_player.pause()
         arcade.play_sound(self.heckle_sound)

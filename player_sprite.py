@@ -49,7 +49,7 @@ class PlayerSprite(arcade.Sprite):
         # Hit box will be set based on the custom ellipse shape.
         #self.hit_box = self.collision_shape.hit_box_points
         self.hit_box = [[-44.0, -56.0], [-11.0, -89.0], [0, -90], [10.0, -89.0], [43.0, -56.0], [43.0, 61.0], [10.0, 94.0], [-11.0, 94.0], [-44.0, 61.0]]
-        print(self.get_points())
+        # print(self.get_points())
         # Default to face-right
         self.character_face_direction = RIGHT_FACING
 
