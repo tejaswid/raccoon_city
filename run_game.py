@@ -6,6 +6,10 @@ Developers: DemonCyborg, Taterstew, pillitoka, ballipilla
 import os
 import arcade
 
+import sys
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    os.chdir(sys._MEIPASS)
+
 from game_view import InstructionsView
 
 # Title of the game
